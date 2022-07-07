@@ -48,8 +48,8 @@ namespace minty::subcommands::post {
                     "Result sort",
                     "",
                     {
-                        .order = core::sort_order::descending,
-                        .value = core::post_sort_value::date_created
+                        .value = core::post_sort_value::date_created,
+                        .order = core::sort_order::descending
                     }
                 ),
                 cli::opts::path()

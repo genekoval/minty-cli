@@ -9,6 +9,4 @@ namespace minty::cli::output {
     auto format_date(const clock::time_point& date) -> std::string;
 
     auto format_duration(const clock::time_point& from) -> std::string;
-
-    auto parse_date(const std::string& date) -> clock::time_point;
 }

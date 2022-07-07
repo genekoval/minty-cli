@@ -1,5 +1,7 @@
 #include "output.h"
 
+#include <date/date.h>
+#include <date/tz.h>
 #include <fmt/format.h>
 
 namespace YAML {
@@ -207,6 +209,19 @@ namespace YAML {
         out << EndMap;
 
         return out;
+    }
+
+    auto operator<<(
+        Emitter& out,
+        const minty::repo::db::time_point& time_point
+    ) -> Emitter& {
+        const auto* zone = date::current_zone();
+        const auto zoned = date::make_zoned(zone, time_point);
+
+        auto stream = std::ostringstream();
+        stream << date::format("%F %T%z", zoned);
+
+        return out << stream.str();
     }
 
     auto operator<<(

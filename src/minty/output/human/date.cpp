@@ -94,13 +94,4 @@ namespace minty::cli::output {
         os << " ago";
         return os.str();
     }
-
-    auto parse_date(const std::string& date) -> clock::time_point {
-        auto in = std::istringstream(date);
-        auto result = std::chrono::system_clock::time_point();
-
-        date::from_stream(in, "%Y-%m-%d %H:%M:%S%z", result);
-
-        return result;
-    }
 }

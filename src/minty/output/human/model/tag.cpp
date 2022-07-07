@@ -144,9 +144,8 @@ namespace minty::cli::output {
             fmt::print(f, "\n");
         }
 
-        const auto date = parse_date(tag.date_created);
-        const auto formatted = format_date(date);
-        const auto duration = format_duration(date);
+        const auto formatted = format_date(tag.date_created);
+        const auto duration = format_duration(tag.date_created);
         const auto created = std::vector<std::string_view> {
             duration,
             formatted

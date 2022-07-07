@@ -74,8 +74,8 @@ namespace commline {
             default_order(value) : get_order(argument.substr(delim + 1));
 
         return {
-            .order = order,
-            .value = value
+            .value = value,
+            .order = order
         };
     }
 }

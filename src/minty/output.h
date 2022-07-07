@@ -69,6 +69,11 @@ namespace YAML {
 
     auto operator<<(
         Emitter& out,
+        const minty::repo::db::time_point& time_point
+    ) -> Emitter&;
+
+    auto operator<<(
+        Emitter& out,
         const UUID::uuid& uuid
     ) -> Emitter&;
 }

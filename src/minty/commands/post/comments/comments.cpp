@@ -82,15 +82,10 @@ namespace {
         };
 
         auto format_date(
-            const std::string& date_string,
+            minty::repo::db::time_point time_point,
             const date::time_zone* zone
         ) -> std::string {
-            auto in = std::istringstream(date_string);
-            auto time = std::chrono::system_clock::time_point();
-
-            date::from_stream(in, "%Y-%m-%d %H:%M:%S%z", time);
-
-            const auto zoned = date::make_zoned(zone, time);
+            const auto zoned = date::make_zoned(zone, time_point);
 
             auto out = std::ostringstream();
             out << date::format("%A, %B %d, %Y at %r %Z", zoned);
