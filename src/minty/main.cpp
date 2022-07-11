@@ -2,22 +2,31 @@
 #include "commands/commands.h"
 #include "settings/settings.h"
 
-#include <minty/minty>
+#include <detail/env.h>
 
 #include <iostream>
 #include <filesystem>
+#include <minty/minty>
+#include <minty/error.h>
 #include <timber/timber>
 
 namespace fs = std::filesystem;
 
 namespace {
-    const auto home = fs::path(std::getenv("HOME"));
-    const auto confdir = home / ".config" / NAME;
-    const auto confpath = confdir / NAME".yml";
+    auto get_config() -> fs::path {
+        const auto confdir = minty::env::config()
+            .value_or(minty::env::home() / ".config" / NAME);
+
+        return confdir / NAME".yml";
+    }
 
     auto load_config() -> minty::cli::settings {
+        const auto confpath = get_config();
         const auto config = minty::cli::settings::load(confpath);
+
         timber::reporting_level = config.log.level;
+        TIMBER_DEBUG(R"(Loaded configuration from: "{}")", confpath.native());
+
         return config;
     }
 
