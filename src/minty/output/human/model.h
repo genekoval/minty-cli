@@ -10,12 +10,14 @@
 #define MINTY_HUMAN_READABLE(Type) \
     template <> \
     struct human_readable<Type> { \
-        static auto print(std::FILE* f, const Type& type) -> void; \
+        static auto print(std::FILE* f, int indent, const Type& type) -> void; \
     };
 
 namespace minty::cli::output {
     template <typename T>
     struct human_readable {};
+
+    MINTY_HUMAN_READABLE(core::post_preview)
 
     MINTY_HUMAN_READABLE(repo::db::tag_preview)
 
@@ -25,6 +27,7 @@ namespace minty::cli::output {
     struct human_readable<core::search_result<T>> {
         static auto print(
             std::FILE* f,
+            int indent,
             const core::search_result<T>& result
         ) -> void {
             if (result.total == 0) {
@@ -38,9 +41,9 @@ namespace minty::cli::output {
             for (auto i = 1ul; i <= size; ++i) {
                 const auto& hit = result.hits[i - 1];
 
-                fmt::print(f, style::index, "{:>{}}", i, digits);
-                fmt::print(f, " {} ", style::interpunct);
-                human_readable<T>::print(f, hit);
+                fmt::print(f, style::index, "{:>{}}", i, indent + digits);
+                fmt::print(f, "{}", style::interpunct);
+                human_readable<T>::print(f, indent + digits + 3, hit);
                 fmt::print(f, "\n");
             }
 

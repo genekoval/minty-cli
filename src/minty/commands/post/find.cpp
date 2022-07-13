@@ -2,10 +2,12 @@
 
 #include "../../client.h"
 #include "../../options/opts.h"
-#include "../../output.h"
+#include "../../output/output.h"
 #include "../../parser/parser.h"
 
 using namespace commline;
+
+namespace output = minty::cli::output;
 
 namespace {
     namespace internal {
@@ -15,7 +17,8 @@ namespace {
             unsigned int size,
             const std::vector<UUID::uuid>& tags,
             const minty::core::post_query::sort_type sort,
-            std::optional<std::string_view> path,
+            const std::optional<output::format>& format,
+            bool quiet,
             std::optional<std::string> text
         ) -> void {
             auto api = minty::cli::client();
@@ -29,7 +32,8 @@ namespace {
             };
 
             const auto result = api.get_posts(query);
-            minty::cli::print(result, path);
+
+            output::result(result, format, quiet);
         }
     }
 }
@@ -52,7 +56,8 @@ namespace minty::subcommands::post {
                         .order = core::sort_order::descending
                     }
                 ),
-                cli::opts::path()
+                cli::opts::output(),
+                cli::opts::quiet()
             ),
             arguments(
                 optional<std::string>("text")

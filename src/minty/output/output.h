@@ -21,7 +21,7 @@ namespace minty::cli::output {
 
     template <typename T>
     auto human(const T& t) -> void {
-        human_readable<T>::print(stderr, t);
+        human_readable<T>::print(stderr, 0, t);
     }
 
     template <typename T>

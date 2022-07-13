@@ -86,7 +86,7 @@ namespace minty::cli::output {
 
         const auto next = std::next(result);
 
-        if (next != end) {
+        if (next != end && *next > 0) {
             os << ", ";
             write_unit_string(os, *next, index + 1);
         }
