@@ -8,6 +8,21 @@ namespace minty::cli::output {
     struct row {
         const std::string_view label;
         const T& value;
+
+        auto label_size() const -> std::size_t {
+            return label.size();
+        }
+    };
+
+    template <typename T>
+    struct row<std::optional<T>> {
+        const std::string_view label;
+        const std::optional<T>& value;
+
+        auto label_size() const -> std::size_t {
+            if (value) return label.size();
+            return 0;
+        }
     };
 
     template <typename... Rows>
@@ -24,7 +39,7 @@ namespace minty::cli::output {
         ) -> int {
             auto result = static_cast<std::size_t>(0);
 
-            ((result = std::max(result, std::get<I>(rows).label.size())), ...);
+            ((result = std::max(result, std::get<I>(rows).label_size())), ...);
 
             return result;
         }

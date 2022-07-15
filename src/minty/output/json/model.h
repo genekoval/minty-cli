@@ -46,6 +46,18 @@ namespace minty::core {
     );
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        post,
+        id,
+        title,
+        description,
+        date_created,
+        date_modified,
+        objects,
+        posts,
+        tags
+    );
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         source,
         id,
         url,

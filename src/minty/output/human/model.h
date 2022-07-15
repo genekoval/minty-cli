@@ -14,10 +14,17 @@
     };
 
 namespace minty::cli::output {
+    template <typename Container>
+    auto ol(std::FILE* f, int indent, const Container& list) -> void;
+
     template <typename T>
     struct human_readable {};
 
+    MINTY_HUMAN_READABLE(core::object_preview);
+
     MINTY_HUMAN_READABLE(core::post_preview)
+
+    MINTY_HUMAN_READABLE(core::post)
 
     MINTY_HUMAN_READABLE(repo::db::tag_preview)
 
@@ -35,22 +42,17 @@ namespace minty::cli::output {
                 return;
             }
 
-            const auto size = result.hits.size();
-            const auto digits = ext::digits(size);
+            ol(f, indent, result.hits);
 
-            for (auto i = 1ul; i <= size; ++i) {
-                const auto& hit = result.hits[i - 1];
-
-                fmt::print(f, style::index, "{:>{}}", i, indent + digits);
-                fmt::print(f, "{}", style::interpunct);
-                human_readable<T>::print(f, indent + digits + 3, hit);
-                fmt::print(f, "\n");
-            }
-
-            fmt::print(f, style::result, "{}", size);
+            fmt::print(f, style::result, "{}", result.hits.size());
             fmt::print(f, " of ");
             fmt::print(f, style::result, "{}", result.total);
             fmt::print(f, " results\n");
         }
     };
+
+    template <typename T>
+    auto print(std::FILE* f, int indent, const T& t) -> void {
+        human_readable<T>::print(f, indent, t);
+    }
 }

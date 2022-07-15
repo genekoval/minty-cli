@@ -3,6 +3,7 @@
 #include "../commands.h"
 #include "../../client.h"
 #include "../../options/opts.h"
+#include "../../output/output.h"
 #include "../../parser/parser.h"
 
 using namespace commline;
@@ -11,12 +12,15 @@ namespace {
     namespace internal {
         auto post(
             const app& app,
-            std::optional<std::string_view> path,
+            bool json,
+            bool quiet,
             const UUID::uuid& id
         ) -> void {
             auto api = minty::cli::client();
 
-            minty::cli::print_post(api, id, path);
+            const auto post = api.get_post(id);
+
+            minty::cli::output::entity(post, json, !quiet);
         }
     }
 }
@@ -27,7 +31,8 @@ namespace minty::commands {
             __FUNCTION__,
             "View or edit a post",
             options(
-                cli::opts::path()
+                cli::opts::json(),
+                cli::opts::quiet()
             ),
             arguments(
                 required<UUID::uuid>("id")

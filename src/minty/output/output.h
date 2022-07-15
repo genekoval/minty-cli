@@ -1,6 +1,6 @@
 #pragma once
 
-#include "human/model.h"
+#include "human/human.h"
 #include "json/model.h"
 
 #include <ext/string.h>

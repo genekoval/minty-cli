@@ -36,17 +36,13 @@ namespace minty::cli::output {
             fmt::print(f, "\n");
         }
 
-        const auto formatted = format_date(tag.date_created);
-        const auto duration = format_duration(tag.date_created);
-        const auto created = std::vector<std::string_view> {
-            duration,
-            formatted
-        };
-
-        metadata(
+        auto meta = metadata(
             row {"ID", tag.id},
             row {"Posts", tag.post_count},
-            row {"Created", created}
-        ).print(f);
+            row {"Created", tag.date_created}
+        );
+
+        meta.indent = indent;
+        meta.print(f);
     }
 }
