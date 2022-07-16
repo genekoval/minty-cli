@@ -3,6 +3,8 @@
 #include "../date.h"
 #include "indent.h"
 
+#include <minty/minty>
+
 namespace minty::cli::output {
     template <typename T>
     struct row {
@@ -115,6 +117,15 @@ namespace minty::cli::output {
             };
 
             print_row(f, label, date);
+        }
+
+        auto print_row(
+            std::FILE* f,
+            std::string_view label,
+            const core::source& source
+        ) -> void {
+            print_label(f, label);
+            fmt::print(f, style::link, source.url);
         }
 
         template <typename Row>

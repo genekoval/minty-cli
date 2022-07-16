@@ -9,8 +9,10 @@ namespace minty::cli::output {
     ) -> void {
         fmt::print(f, "{}\n", object.id);
 
+        const auto type = fmt::format("{}/{}", object.type, object.subtype);
+
         auto meta = metadata(
-            row {"Type", fmt::format("{}/{}", object.type, object.subtype)}
+            row {"Type", type}
         );
 
         meta.indent = indent;

@@ -28,6 +28,8 @@ namespace minty::cli::output {
 
     MINTY_HUMAN_READABLE(core::object_preview);
 
+    MINTY_HUMAN_READABLE(core::object);
+
     MINTY_HUMAN_READABLE(core::post_preview)
 
     MINTY_HUMAN_READABLE(core::post)

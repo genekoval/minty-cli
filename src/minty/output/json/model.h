@@ -46,6 +46,12 @@ namespace minty::core {
     );
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        data_size,
+        bytes,
+        formatted
+    );
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         object_preview,
         id,
         preview_id,
@@ -80,6 +86,19 @@ namespace minty::core {
         id,
         url,
         icon
+    );
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        object,
+        id,
+        hash,
+        size,
+        type,
+        subtype,
+        date_added,
+        preview_id,
+        src,
+        posts
     );
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(

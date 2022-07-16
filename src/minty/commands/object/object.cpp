@@ -3,7 +3,7 @@
 #include "../commands.h"
 #include "../../client.h"
 #include "../../options/opts.h"
-#include "../../output.h"
+#include "../../output/output.h"
 #include "../../parser/parser.h"
 
 using namespace commline;
@@ -12,14 +12,15 @@ namespace {
     namespace internal {
         auto object(
             const app& app,
-            std::optional<std::string_view> path,
+            bool json,
+            bool quiet,
             const UUID::uuid& id
         ) -> void {
             auto api = minty::cli::client();
 
             const auto obj = api.get_object(id);
 
-            minty::cli::print(obj, path);
+            minty::cli::output::entity(obj, json, !quiet);
         }
     }
 }
@@ -30,7 +31,8 @@ namespace minty::commands {
             __FUNCTION__,
             "Get information about an object",
             options(
-                cli::opts::path()
+                cli::opts::json(),
+                cli::opts::quiet()
             ),
             arguments(
                 required<UUID::uuid>("id")
