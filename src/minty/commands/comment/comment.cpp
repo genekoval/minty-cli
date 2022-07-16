@@ -10,12 +10,15 @@ namespace {
     namespace internal {
         auto comment(
             const app& app,
-            std::optional<std::string_view> path,
+            bool json,
+            bool quiet,
             const UUID::uuid& id
         ) -> void {
             auto api = minty::cli::client();
 
-            minty::cli::print_comment(api, id, path);
+            const auto comment = api.get_comment(id);
+
+            minty::cli::output::entity(comment, json, !quiet);
         }
     }
 }
@@ -26,7 +29,8 @@ namespace minty::commands {
             __FUNCTION__,
             "Read a comment",
             options(
-                cli::opts::path()
+                cli::opts::json(),
+                cli::opts::quiet()
             ),
             arguments(
                 required<UUID::uuid>("id")

@@ -22,6 +22,8 @@ namespace minty::cli::output {
 
     MINTY_HUMAN_READABLE(core::comment);
 
+    MINTY_HUMAN_READABLE(core::comment_detail);
+
     MINTY_HUMAN_READABLE(std::vector<core::comment>);
 
     MINTY_HUMAN_READABLE(core::object_preview);

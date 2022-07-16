@@ -7,6 +7,16 @@
 
 namespace minty::repo::db {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        comment,
+        id,
+        post_id,
+        parent_id,
+        indent,
+        content,
+        date_created
+    );
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         tag_preview,
         id,
         name,

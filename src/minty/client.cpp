@@ -7,14 +7,6 @@
 namespace fs = std::filesystem;
 
 namespace minty::cli {
-    auto print_comment(
-        minty::api& api,
-        const UUID::uuid& id,
-        std::optional<std::string_view> path
-    ) -> void {
-        cli::print(api.get_comment(id), path);
-    }
-
     auto print_yaml(
         const YAML::Emitter& emitter,
         std::optional<std::string_view> path

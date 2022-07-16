@@ -23,10 +23,4 @@ namespace minty::cli {
         out << t;
         print_yaml(out, path);
     }
-
-    auto print_comment(
-        minty::api& api,
-        const UUID::uuid& id,
-        std::optional<std::string_view> path
-    ) -> void;
 }

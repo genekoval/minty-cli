@@ -2,6 +2,9 @@
 #include "../model.h"
 #include "../style.h"
 #include "../view/indent.h"
+#include "../view/metadata.h"
+
+#include <detail/env.h>
 
 #include <ext/string.h>
 
@@ -49,7 +52,9 @@ namespace {
             fmt::print(f, "\n");
         }
 
-        auto text(std::string_view value, std::size_t width) -> void {
+        auto text(std::string_view value) -> void {
+            const auto width = minty::env::width();
+
             auto range = ext::string_range(value, "\n");
 
             for (const auto& line : range) {
@@ -98,7 +103,6 @@ namespace minty::cli::output {
         const core::comment& comment
     ) -> void {
         constexpr auto indent_spaces = 4;
-        constexpr auto width = 80ul;
 
         auto p = printer(f, indent + indent_spaces * comment.indent);
 
@@ -106,8 +110,29 @@ namespace minty::cli::output {
         p.indent_with_separator();
         fmt::print(f, metadata_style, "{}\n", comment.id);
         p.timestamp(comment.date_created);
-        p.text(comment.content, width);
+        p.text(comment.content);
         p.newline();
+    }
+
+    auto human_readable<core::comment_detail>::print(
+        std::FILE* f,
+        int indent,
+        const core::comment_detail& comment
+    ) -> void {
+        auto meta = metadata(
+            row {"ID", comment.id},
+            row {"Post", comment.post_id},
+            row {"Parent", comment.parent_id},
+            row {"Level", comment.indent},
+            row {"Created", comment.date_created}
+        );
+        meta.indent = indent;
+        meta.print(f);
+
+        fmt::print(f, "\n");
+
+        auto p = printer(f, indent);
+        p.text(comment.content);
     }
 
     auto human_readable<std::vector<core::comment>>::print(
