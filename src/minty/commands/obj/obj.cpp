@@ -10,7 +10,7 @@ using namespace commline;
 
 namespace {
     namespace internal {
-        auto object(
+        auto obj(
             const app& app,
             bool json,
             bool quiet,
@@ -26,7 +26,7 @@ namespace {
 }
 
 namespace minty::commands {
-    auto object() -> std::unique_ptr<command_node> {
+    auto obj() -> std::unique_ptr<command_node> {
         auto cmd = command(
             __FUNCTION__,
             "Get information about an object",
@@ -37,10 +37,10 @@ namespace minty::commands {
             arguments(
                 required<UUID::uuid>("id")
             ),
-            internal::object
+            internal::obj
         );
 
-        cmd->subcommand(subcommands::object::get());
+        cmd->subcommand(subcommands::obj::get());
 
         return cmd;
     }

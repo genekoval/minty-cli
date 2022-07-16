@@ -34,7 +34,7 @@ namespace {
     }
 }
 
-namespace minty::subcommands::object {
+namespace minty::subcommands::obj {
     auto get() -> std::unique_ptr<command_node> {
         return command(
             __FUNCTION__,

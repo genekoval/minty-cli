@@ -89,7 +89,7 @@ auto main(int argc, const char** argv) -> int {
 
     app.subcommand(minty::commands::comment());
     app.subcommand(minty::commands::comments());
-    app.subcommand(minty::commands::object());
+    app.subcommand(minty::commands::obj());
     app.subcommand(minty::commands::post());
     app.subcommand(minty::commands::reply());
     app.subcommand(minty::commands::tag());
