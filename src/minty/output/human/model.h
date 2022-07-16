@@ -20,6 +20,10 @@ namespace minty::cli::output {
     template <typename T>
     struct human_readable {};
 
+    MINTY_HUMAN_READABLE(core::comment);
+
+    MINTY_HUMAN_READABLE(std::vector<core::comment>);
+
     MINTY_HUMAN_READABLE(core::object_preview);
 
     MINTY_HUMAN_READABLE(core::post_preview)

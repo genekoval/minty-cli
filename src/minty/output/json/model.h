@@ -28,6 +28,14 @@ namespace minty::core {
     }
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        comment,
+        id,
+        content,
+        indent,
+        date_created
+    );
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         object_preview,
         id,
         preview_id,
