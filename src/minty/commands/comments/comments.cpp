@@ -1,8 +1,8 @@
 #include "../commands.h"
-#include "../../../client.h"
-#include "../../../options/opts.h"
-#include "../../../output/output.h"
-#include "../../../parser/parser.h"
+#include "../../client.h"
+#include "../../options/opts.h"
+#include "../../output/output.h"
+#include "../../parser/parser.h"
 
 using namespace commline;
 
@@ -23,7 +23,7 @@ namespace {
     }
 }
 
-namespace minty::subcommands::post {
+namespace minty::commands {
     auto comments() -> std::unique_ptr<command_node> {
         return command(
             __FUNCTION__,

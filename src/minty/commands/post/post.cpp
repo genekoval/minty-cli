@@ -41,7 +41,6 @@ namespace minty::commands {
         );
 
         cmd->subcommand(subcommands::post::add());
-        cmd->subcommand(subcommands::post::comments());
         cmd->subcommand(subcommands::post::description());
         cmd->subcommand(subcommands::post::find());
         cmd->subcommand(subcommands::post::objects());
