@@ -1,5 +1,5 @@
 #include "../model.h"
-#include "../views/metadata.h"
+#include "../view/metadata.h"
 
 namespace style = minty::cli::output::style;
 

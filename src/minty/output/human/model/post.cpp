@@ -1,7 +1,7 @@
 #include "../model.h"
-#include "../views/heading.h"
-#include "../views/list.h"
-#include "../views/metadata.h"
+#include "../view/heading.h"
+#include "../view/list.h"
+#include "../view/metadata.h"
 
 namespace style = minty::cli::output::style;
 

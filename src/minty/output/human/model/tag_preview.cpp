@@ -1,5 +1,5 @@
 #include "../model.h"
-#include "../views/metadata.h"
+#include "../view/metadata.h"
 
 namespace minty::cli::output {
     auto human_readable<repo::db::tag_preview>::print(

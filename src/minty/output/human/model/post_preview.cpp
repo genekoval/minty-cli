@@ -1,6 +1,6 @@
 #include "../date.h"
 #include "../model.h"
-#include "../views/metadata.h"
+#include "../view/metadata.h"
 
 namespace minty::cli::output {
     auto human_readable<core::post_preview>::print(
