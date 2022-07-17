@@ -70,6 +70,8 @@ namespace minty::cli {
 auto main(int argc, const char** argv) -> int {
     using namespace commline;
 
+    std::locale::global(std::locale(""));
+
     timber::reporting_level = timber::level::info;
     timber::log_handler = &timber::console_logger;
 
