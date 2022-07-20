@@ -6,8 +6,6 @@
 #include <uuid++/uuid++>
 
 namespace minty::cli::opts {
-    auto add_tags() -> commline::list<UUID::uuid>;
-
     auto description() -> commline::option<std::string>;
 
     /**

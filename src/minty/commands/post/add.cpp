@@ -44,7 +44,7 @@ namespace minty::subcommands::post {
             options(
                 cli::opts::title(),
                 cli::opts::description(),
-                cli::opts::add_tags()
+                cli::opts::tags()
             ),
             arguments(
                 variadic<std::string_view>("objects")

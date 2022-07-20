@@ -3,14 +3,6 @@
 using namespace commline;
 
 namespace minty::cli::opts {
-    auto add_tags() -> commline::list<UUID::uuid> {
-        return {
-            {"t", "tag"},
-            "Add a tag",
-            "id"
-        };
-    }
-
     auto description() -> option<std::string> {
         return {
             {"d", "description"},
@@ -74,7 +66,8 @@ namespace minty::cli::opts {
         return {
             {"t", "tag"},
             "Post tags",
-            "id"
+            "id",
+            ","
         };
     }
 
