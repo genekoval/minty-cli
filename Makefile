@@ -23,6 +23,7 @@ install := $(program)
 targets := $(install)
 
 files = \
+ $(include) \
  $(src) \
  Makefile \
  VERSION
