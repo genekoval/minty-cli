@@ -11,23 +11,27 @@ namespace {
             const app& app,
             bool clear,
             const UUID::uuid& id,
-            const std::optional<std::string_view>& description
+            std::optional<std::string_view> description
         ) -> void {
-            auto api = minty::cli::client();
+            minty::cli::client([
+                clear,
+                &id,
+                description
+            ](auto& api) -> ext::task<> {
+                if (clear) {
+                    co_await api.set_post_description(id, "");
+                    co_return;
+                }
 
-            if (clear) {
-                api.set_post_description(id, "");
-                return;
-            }
+                if (!description) {
+                    throw cli_error("no description given");
+                }
 
-            if (!description) {
-                throw cli_error("no description given");
-            }
+                const auto [modified, result] =
+                    co_await api.set_post_description(id, *description);
 
-            const auto [modified, result] =
-                api.set_post_description(id, *description);
-
-            if (result) fmt::print("{}\n", *result);
+                if (result) fmt::print("{}\n", *result);
+            });
         }
     }
 }

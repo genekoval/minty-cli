@@ -10,7 +10,7 @@ namespace minty::cli::output {
         fmt::print(f, fmt::emphasis::bold, "{}\n", tag.name);
 
         auto meta = metadata(
-            row {"ID", tag.id}
+            make_row("ID", tag.id)
         );
 
         meta.indent = indent;

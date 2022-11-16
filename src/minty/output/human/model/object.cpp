@@ -18,12 +18,12 @@ namespace minty::cli::output {
         const auto type = fmt::format("{}/{}", object.type, object.subtype);
 
         auto meta = metadata(
-            row {"ID", object.id},
-            row {"SHA256", object.hash},
-            row {"Size", size},
-            row {"Type", type},
-            row {"Added", object.date_added},
-            row {"Source", object.src}
+            make_row("ID", object.id),
+            make_row("SHA256", object.hash),
+            make_row("Size", size),
+            make_row("Type", type),
+            make_row("Added", object.date_added),
+            make_row("Source", object.src)
         );
 
         meta.indent = indent;

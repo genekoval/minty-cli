@@ -38,9 +38,9 @@ namespace minty::cli::output {
             std::make_optional(post.date_modified) : std::nullopt;
 
         auto meta = metadata(
-            row {"ID", post.id},
-            row {"Created", post.date_created},
-            row {"Modified", modified}
+            make_row("ID", post.id),
+            make_row("Created", post.date_created),
+            make_row("Modified", modified)
         );
 
         meta.indent = indent;

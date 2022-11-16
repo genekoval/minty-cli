@@ -16,27 +16,32 @@ namespace {
             const UUID::uuid& id,
             std::string_view url
         ) -> void {
-            auto api = minty::cli::client();
+            minty::cli::client([
+                json,
+                quiet,
+                &id,
+                url
+            ](auto& api) -> ext::task<> {
+                auto tag = co_await api.get_tag(id);
 
-            auto tag = api.get_tag(id);
+                const auto end = tag.sources.end();
+                const auto result = std::ranges::find_if(
+                    tag.sources.begin(),
+                    end,
+                    [url](const auto& source) { return source.url == url; }
+                );
 
-            const auto end = tag.sources.end();
-            const auto result = std::ranges::find_if(
-                tag.sources.begin(),
-                end,
-                [url](const auto& source) { return source.url == url; }
-            );
+                if (result != end) {
+                    co_await api.delete_tag_source(id, result->id);
+                    tag.sources.erase(result);
+                }
+                else {
+                    const auto source = co_await api.add_tag_source(id, url);
+                    tag.sources.push_back(source);
+                }
 
-            if (result != end) {
-                api.delete_tag_source(id, result->id);
-                tag.sources.erase(result);
-            }
-            else {
-                const auto source = api.add_tag_source(id, url);
-                tag.sources.push_back(source);
-            }
-
-            minty::cli::output::entity(tag, json, !quiet);
+                minty::cli::output::entity(tag, json, !quiet);
+            });
         }
     }
 }

@@ -16,24 +16,32 @@ namespace {
             unsigned int from,
             unsigned int size,
             const std::vector<UUID::uuid>& tags,
-            const minty::core::post_query::sort_type sort,
-            const std::optional<output::format>& format,
+            minty::core::post_query::sort_type sort,
+            std::optional<output::format> format,
             bool quiet,
-            std::optional<std::string> text
+            const std::optional<std::string>& text
         ) -> void {
-            auto api = minty::cli::client();
+            minty::cli::client([
+                from,
+                size,
+                &tags,
+                sort,
+                format,
+                quiet,
+                &text
+            ](auto& api) -> ext::task<> {
+                const auto query = minty::core::post_query {
+                    .from = from,
+                    .size = size,
+                    .text = text,
+                    .tags = tags,
+                    .sort = sort
+                };
 
-            const auto query = minty::core::post_query {
-                .from = from,
-                .size = size,
-                .text = text,
-                .tags = tags,
-                .sort = sort
-            };
+                const auto result = co_await api.get_posts(query);
 
-            const auto result = api.get_posts(query);
-
-            output::result(result, format, quiet);
+                output::result(result, format, quiet);
+            });
         }
     }
 }

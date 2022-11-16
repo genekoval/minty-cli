@@ -15,11 +15,10 @@ namespace {
             bool quiet,
             const UUID::uuid& id
         ) -> void {
-            auto api = minty::cli::client();
-
-            const auto tag = api.get_tag(id);
-
-            minty::cli::output::entity(tag, json, !quiet);
+            minty::cli::client([json, quiet, &id](auto& api) -> ext::task<> {
+                const auto tag = co_await api.get_tag(id);
+                minty::cli::output::entity(tag, json, !quiet);
+            });
         }
     }
 }

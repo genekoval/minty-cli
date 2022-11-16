@@ -2,6 +2,7 @@
 
 #include "../date.h"
 #include "indent.h"
+#include "../style.h"
 
 #include <minty/minty>
 
@@ -26,6 +27,11 @@ namespace minty::cli::output {
             return 0;
         }
     };
+
+    template <typename T>
+    auto make_row(std::string_view label, const T& value) -> row<T> {
+        return row<T> {label, value};
+    }
 
     template <typename... Rows>
     class metadata {

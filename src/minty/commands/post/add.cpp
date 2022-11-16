@@ -15,23 +15,28 @@ namespace {
             const std::vector<UUID::uuid>& tags,
             const std::vector<std::string_view>& objects
         ) -> void {
-            auto api = minty::cli::client();
+            minty::cli::client([
+                &title,
+                &description,
+                &tags,
+                &objects
+            ](auto& api) -> ext::task<> {
+                auto parts = minty::core::post_parts {
+                    .title = title,
+                    .description = description,
+                    .tags = tags
+                };
 
-            auto parts = minty::core::post_parts {
-                .title = title,
-                .description = description,
-                .tags = tags
-            };
+                const auto object_previews = co_await api.add_objects(objects);
+                std::ranges::transform(
+                    object_previews,
+                    std::back_inserter(parts.objects),
+                    [](const auto& obj) -> UUID::uuid { return obj.id; }
+                );
 
-            const auto object_previews = api.add_objects(objects);
-            std::ranges::transform(
-                object_previews,
-                std::back_inserter(parts.objects),
-                [](const auto& obj) -> UUID::uuid { return obj.id; }
-            );
-
-            const auto id = api.add_post(parts);
-            std::cout << id << std::endl;
+                const auto id = co_await api.add_post(parts);
+                fmt::print("{}\n", id);
+            });
         }
     }
 }

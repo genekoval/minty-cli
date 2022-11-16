@@ -14,9 +14,9 @@ namespace {
             const UUID::uuid& comment,
             std::string_view content
         ) -> void {
-            auto api = minty::cli::client();
-
-            api.set_comment_content(comment, content);
+            minty::cli::client([&comment, content](auto& api) -> ext::task<> {
+                co_await api.set_comment_content(comment, content);
+            });
         }
     }
 }

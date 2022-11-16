@@ -12,12 +12,12 @@ namespace {
             const UUID::uuid& id,
             std::optional<std::string_view> title
         ) -> void {
-            auto api = minty::cli::client();
+            minty::cli::client([&id, title](auto& api) -> ext::task<> {
+                if (title) co_await api.set_post_title(id, *title);
 
-            if (title) api.set_post_title(id, *title);
-
-            const auto post = api.get_post(id);
-            if (post.title) std::cout << *post.title << std::endl;
+                const auto post = co_await api.get_post(id);
+                if (post.title) fmt::print("{}\n", *post.title);
+            });
         }
     }
 }

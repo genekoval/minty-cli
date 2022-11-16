@@ -15,20 +15,27 @@ namespace {
             const commline::app& app,
             unsigned int from,
             unsigned int size,
-            const std::optional<output::format>& format,
+            std::optional<output::format> format,
             bool quiet,
             const std::string& name
         ) -> void {
-            const auto query = minty::core::tag_query {
-                .from = from,
-                .size = size,
-                .name = name
-            };
+            minty::cli::client([
+                from,
+                size,
+                format,
+                quiet,
+                &name
+            ](auto& api) -> ext::task<> {
+                const auto query = minty::core::tag_query {
+                    .from = from,
+                    .size = size,
+                    .name = name
+                };
 
-            auto api = minty::cli::client();
-            const auto result = api.get_tags(query);
+                const auto result = co_await api.get_tags(query);
 
-            output::result(result, format, quiet);
+                output::result(result, format, quiet);
+            });
         }
     }
 }

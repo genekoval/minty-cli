@@ -4,8 +4,6 @@
 #include <ext/string.h>
 #include <iostream>
 
-namespace fs = std::filesystem;
-
 namespace minty::cli {
     auto print_yaml(
         const YAML::Emitter& emitter,

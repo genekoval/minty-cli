@@ -16,20 +16,24 @@ namespace {
             const UUID::uuid& id,
             std::optional<std::string_view> file
         ) -> void {
-            auto bucket = minty::cli::bucket();
+            minty::cli::bucket([
+                no_clobber,
+                &id,
+                file
+            ](auto& bucket) -> ext::task<> {
+                if (!file) {
+                    co_await bucket.get(id, std::cout);
+                    co_return;
+                }
 
-            if (!file) {
-                bucket.get(id, std::cout);
-                return;
-            }
+                auto path = fs::path(*file);
 
-            auto path = fs::path(*file);
+                if (fs::is_directory(path)) path = path / id.string();
+                if (no_clobber && fs::exists(path)) co_return;
 
-            if (fs::is_directory(path)) path = path / id.string();
-            if (no_clobber && fs::exists(path)) return;
-
-            auto out = std::ofstream(path);
-            bucket.get(id, out);
+                auto out = std::ofstream(path);
+                co_await bucket.get(id, out);
+            });
         }
     }
 }

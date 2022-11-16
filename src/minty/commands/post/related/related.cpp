@@ -13,11 +13,11 @@ namespace {
             const app& app,
             const UUID::uuid& id
         ) -> void {
-            auto api = minty::cli::client();
+            minty::cli::client([&id](auto& api) -> ext::task<> {
+                const auto post = co_await api.get_post(id);
 
-            const auto post = api.get_post(id);
-
-            minty::cli::print(post.posts);
+                minty::cli::print(post.posts);
+            });
         }
     }
 }

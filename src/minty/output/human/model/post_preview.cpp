@@ -12,10 +12,10 @@ namespace minty::cli::output {
         else fmt::print(f, fmt::emphasis::italic, "Untitled\n");
 
         auto meta = metadata(
-            row {"ID", post.id},
-            row {"Objects", post.object_count},
-            row {"Comments", post.comment_count},
-            row {"Created", post.date_created}
+            make_row("ID", post.id),
+            make_row("Objects", post.object_count),
+            make_row("Comments", post.comment_count),
+            make_row("Created", post.date_created)
         );
 
         meta.indent = indent;

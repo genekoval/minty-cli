@@ -5,9 +5,9 @@
 #include <yaml-cpp/yaml.h>
 
 namespace minty::cli {
-    auto bucket() -> fstore::bucket;
+    auto bucket(std::function<ext::task<>(fstore::bucket&)>&& action) -> void;
 
-    auto client() -> api;
+    auto client(std::function<ext::task<>(api&)>&& action) -> void;
 
     auto print_yaml(
         const YAML::Emitter& emitter,

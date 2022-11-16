@@ -14,11 +14,10 @@ namespace {
             bool quiet,
             const UUID::uuid& post
         ) -> void {
-            auto api = minty::cli::client();
-
-            const auto comment_list = api.get_comments(post);
-
-            minty::cli::output::entity(comment_list, json, !quiet);
+            minty::cli::client([json, quiet, &post](auto& api) -> ext::task<> {
+                const auto comment_list = co_await api.get_comments(post);
+                minty::cli::output::entity(comment_list, json, !quiet);
+            });
         }
     }
 }

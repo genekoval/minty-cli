@@ -11,8 +11,9 @@ namespace {
             const app& app,
             const UUID::uuid& id
         ) -> void {
-            auto api = minty::cli::client();
-            api.delete_tag(id);
+            minty::cli::client([&id](auto& api) -> ext::task<> {
+                co_await api.delete_tag(id);
+            });
         }
     }
 }

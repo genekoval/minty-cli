@@ -12,11 +12,10 @@ namespace {
             const app& app,
             std::string_view name
         ) -> void {
-            auto api = minty::cli::client();
-
-            const auto id = api.add_tag(name);
-
-            fmt::print("{}\n", id);
+            minty::cli::client([name](auto& api) -> ext::task<> {
+                const auto id = co_await api.add_tag(name);
+                fmt::print("{}\n", id);
+            });
         }
     }
 }

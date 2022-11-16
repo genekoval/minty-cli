@@ -4,7 +4,6 @@
 
 #include <detail/env.h>
 
-#include <iostream>
 #include <filesystem>
 #include <minty/minty>
 #include <minty/error.h>
@@ -36,34 +35,55 @@ namespace {
     }
 
     namespace internal {
+        auto connect(
+            std::function<ext::task<>(minty::client&)>&& action
+        ) -> void {
+            const auto task = [action = std::move(action)]() -> ext::task<> {
+                auto client = minty::client(
+                    config().server.host,
+                    config().server.objects
+                );
+
+                co_await action(client);
+            };
+
+            netcore::async(task());
+        }
+
         auto main(const commline::app& app, bool version) -> void {
             if (!version) {
-                std::cout << app.name << ": " << app.description << std::endl;
+                fmt::print("{}: {}\n", app.name, app.description);
                 return;
             }
 
             commline::print_version(std::cout, app);
 
-            auto api = minty::cli::client();
-            const auto server_info = api.get_server_info();
-            std::cout << "server version: " << server_info.version << std::endl;
+            minty::cli::client([](auto& api) -> ext::task<> {
+                const auto info = co_await api.get_server_info();
+                fmt::print("server version: {}\n", info.version);
+            });
         }
     }
 }
 
 namespace minty::cli {
-    auto bucket() -> fstore::bucket {
-        static auto object_store = fstore::object_store(
-            config().server.objects
-        );
-
-        const auto source = client().get_server_info().object_source;
-
-        return fstore::bucket(object_store, source.bucket_id);
+    auto bucket(std::function<ext::task<>(fstore::bucket&)>&& action) -> void {
+        internal::connect([action = std::move(action)](
+            auto& client
+        ) -> ext::task<> {
+            auto object_store = co_await client.object_store();
+            auto bucket = co_await client.bucket(object_store.value());
+            co_await action(bucket);
+        });
     }
 
-    auto client() -> api {
-        return api(config().server.host);
+    auto client(std::function<ext::task<>(api&)>&& action) -> void {
+        internal::connect([action = std::move(action)](
+            auto& client
+        ) -> ext::task<> {
+            auto api = co_await client.connect();
+            co_await action(api.value());
+        });
     }
 }
 

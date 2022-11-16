@@ -9,14 +9,19 @@ namespace {
     namespace internal {
         auto mv(
             const app& app,
-            std::optional<UUID::uuid> destination,
+            const std::optional<UUID::uuid>& destination,
             const UUID::uuid& id,
             const std::vector<UUID::uuid>& objects
         ) -> void {
             if (objects.empty()) return;
 
-            auto api = minty::cli::client();
-            api.move_post_objects(id, objects, destination);
+            minty::cli::client([
+                &destination,
+                &id,
+                &objects
+            ](auto& api) -> ext::task<> {
+                co_await api.move_post_objects(id, objects, destination);
+            });
         }
     }
 }

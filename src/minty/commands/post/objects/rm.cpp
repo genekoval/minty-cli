@@ -12,8 +12,11 @@ namespace {
             const UUID::uuid& id,
             const std::vector<UUID::uuid>& objects
         ) -> void {
-            auto api = minty::cli::client();
-            if (!objects.empty()) api.delete_post_objects(id, objects);
+            if (objects.empty()) return;
+
+            minty::cli::client([&id, &objects](auto& api) -> ext::task<> {
+                co_await api.delete_post_objects(id, objects);
+            });
         }
     }
 }

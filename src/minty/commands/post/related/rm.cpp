@@ -12,11 +12,11 @@ namespace {
             const UUID::uuid& id,
             const std::vector<UUID::uuid>& posts
         ) -> void {
-            auto api = minty::cli::client();
-
-            for (const auto& post : posts) {
-                api.delete_related_post(id, post);
-            }
+            minty::cli::client([&id, &posts](auto& api) -> ext::task<> {
+                for (const auto& post : posts) {
+                    co_await api.delete_related_post(id, post);
+                }
+            });
         }
     }
 }

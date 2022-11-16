@@ -16,28 +16,33 @@ namespace {
             const UUID::uuid& id,
             std::string_view alias
         ) -> void {
-            auto api = minty::cli::client();
-
-            auto tag = api.get_tag(id);
-
-            const auto end = tag.aliases.end();
-            const auto result = std::ranges::find(
-                tag.aliases.begin(),
-                end,
+            minty::cli::client([
+                json,
+                quiet,
+                &id,
                 alias
-            );
+            ](auto& api) -> ext::task<> {
+                auto tag = co_await api.get_tag(id);
 
-            if (result != end) {
-                api.delete_tag_alias(id, alias);
-                tag.aliases.erase(result);
-            }
-            else {
-                api.add_tag_alias(id, alias);
-                tag.aliases.emplace_back(alias);
-                std::sort(tag.aliases.begin(), tag.aliases.end());
-            }
+                const auto end = tag.aliases.end();
+                const auto result = std::ranges::find(
+                    tag.aliases.begin(),
+                    end,
+                    alias
+                );
 
-            minty::cli::output::entity(tag, json, !quiet);
+                if (result != end) {
+                    co_await api.delete_tag_alias(id, alias);
+                    tag.aliases.erase(result);
+                }
+                else {
+                    co_await api.add_tag_alias(id, alias);
+                    tag.aliases.emplace_back(alias);
+                    std::sort(tag.aliases.begin(), tag.aliases.end());
+                }
+
+                minty::cli::output::entity(tag, json, !quiet);
+            });
         }
     }
 }

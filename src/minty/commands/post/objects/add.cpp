@@ -13,17 +13,25 @@ namespace {
             const UUID::uuid& id,
             const std::vector<std::string_view>& objects
         ) -> void {
-            auto api = minty::cli::client();
+            if (objects.empty()) return;
 
-            auto uploaded = std::vector<UUID::uuid>();
-            const auto object_previews = api.add_objects(objects);
-            std::ranges::transform(
-                object_previews,
-                std::back_inserter(uploaded),
-                [](const auto& obj) -> UUID::uuid { return obj.id; }
-            );
+            minty::cli::client([
+                index,
+                &id,
+                &objects
+            ](auto& api) -> ext::task<> {
+                auto uploaded = std::vector<UUID::uuid>();
+                const auto object_previews = co_await api.add_objects(objects);
+                std::ranges::transform(
+                    object_previews,
+                    std::back_inserter(uploaded),
+                    [](const auto& obj) -> UUID::uuid { return obj.id; }
+                );
 
-            if (!uploaded.empty()) api.add_post_objects(id, uploaded, index);
+                if (!uploaded.empty()) {
+                    co_await api.add_post_objects(id, uploaded, index);
+                }
+            });
         }
     }
 }

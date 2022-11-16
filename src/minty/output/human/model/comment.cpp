@@ -120,11 +120,11 @@ namespace minty::cli::output {
         const core::comment_detail& comment
     ) -> void {
         auto meta = metadata(
-            row {"ID", comment.id},
-            row {"Post", comment.post_id},
-            row {"Parent", comment.parent_id},
-            row {"Level", comment.indent},
-            row {"Created", comment.date_created}
+            make_row("ID", comment.id),
+            make_row("Post", comment.post_id),
+            make_row("Parent", comment.parent_id),
+            make_row("Level", comment.indent),
+            make_row("Created", comment.date_created)
         );
         meta.indent = indent;
         meta.print(f);

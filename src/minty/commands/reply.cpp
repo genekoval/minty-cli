@@ -13,11 +13,13 @@ namespace {
             const UUID::uuid& comment,
             std::string_view content
         ) -> void {
-            auto api = minty::cli::client();
-
-            const auto result = api.add_reply(comment, content);
-
-            std::cout << result.id << std::endl;
+            minty::cli::client([
+                &comment,
+                content
+            ](auto& api) -> ext::task<> {
+                const auto result = co_await api.add_reply(comment, content);
+                fmt::print("{}\n", result.id);
+            });
         }
     }
 }

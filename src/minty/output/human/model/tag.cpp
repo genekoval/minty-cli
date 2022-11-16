@@ -37,9 +37,9 @@ namespace minty::cli::output {
         }
 
         auto meta = metadata(
-            row {"ID", tag.id},
-            row {"Posts", tag.post_count},
-            row {"Created", tag.date_created}
+            make_row("ID", tag.id),
+            make_row("Posts", tag.post_count),
+            make_row("Created", tag.date_created)
         );
 
         meta.indent = indent;
