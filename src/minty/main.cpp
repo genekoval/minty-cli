@@ -72,7 +72,7 @@ namespace minty::cli {
             auto& client
         ) -> ext::task<> {
             auto object_store = co_await client.object_store();
-            auto bucket = co_await client.bucket(object_store.value());
+            auto bucket = co_await client.bucket(*object_store);
             co_await action(bucket);
         });
     }
@@ -82,7 +82,7 @@ namespace minty::cli {
             auto& client
         ) -> ext::task<> {
             auto api = co_await client.connect();
-            co_await action(api.value());
+            co_await action(*api);
         });
     }
 }
