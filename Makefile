@@ -16,8 +16,9 @@ $(program).libs := \
  netcore \
  pthread \
  timber \
+ uuid++ \
  yaml-cpp \
- uuid++
+ zipline
 
 install := $(program)
 targets := $(install)
