@@ -1,7 +1,8 @@
 #include "commands.h"
 
-#include "../../../client.h"
 #include "../../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -12,7 +13,7 @@ namespace {
             const UUID::uuid& id,
             const std::vector<UUID::uuid>& posts
         ) -> void {
-            minty::cli::client([&id, &posts](auto& api) -> ext::task<> {
+            minty::cli::api([&id, &posts](minty::api& api) -> ext::task<> {
                 for (const auto& post : posts) {
                     co_await api.add_related_post(id, post);
                 }

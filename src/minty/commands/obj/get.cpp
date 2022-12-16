@@ -1,6 +1,8 @@
 #include "commands.h"
-#include "../../client.h"
 #include "../../parser/parser.h"
+
+#include <detail/bucket.hpp>
+#include <detail/client.hpp>
 
 #include <fstream>
 
@@ -16,11 +18,20 @@ namespace {
             const UUID::uuid& id,
             std::optional<std::string_view> file
         ) -> void {
-            minty::cli::bucket([
+            netcore::async([
                 no_clobber,
                 &id,
                 file
-            ](auto& bucket) -> ext::task<> {
+            ]() -> ext::task<> {
+                const auto config = minty::cli::settings::load();
+
+                auto client = minty::cli::client(config);
+                auto api = co_await client.connect();
+
+                auto objects = minty::cli::object_store(config);
+                auto bucket =
+                    co_await minty::cli::bucket::connect(*api, objects);
+
                 if (!file) {
                     co_await bucket.get(id, std::cout);
                     co_return;
@@ -33,7 +44,7 @@ namespace {
 
                 auto out = std::ofstream(path);
                 co_await bucket.get(id, out);
-            });
+            }());
         }
     }
 }

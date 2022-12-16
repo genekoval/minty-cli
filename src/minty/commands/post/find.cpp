@@ -1,9 +1,10 @@
 #include "commands.h"
 
-#include "../../client.h"
 #include "../../options/opts.h"
 #include "../../output/output.h"
 #include "../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -21,7 +22,7 @@ namespace {
             bool quiet,
             const std::optional<std::string>& text
         ) -> void {
-            minty::cli::client([
+            minty::cli::api([
                 from,
                 size,
                 &tags,
@@ -29,7 +30,7 @@ namespace {
                 format,
                 quiet,
                 &text
-            ](auto& api) -> ext::task<> {
+            ](minty::api& api) -> ext::task<> {
                 const auto query = minty::core::post_query {
                     .from = from,
                     .size = size,

@@ -5,6 +5,8 @@
 #include "../../../output.h"
 #include "../../../parser/parser.h"
 
+#include <detail/client.hpp>
+
 using namespace commline;
 
 namespace {
@@ -13,7 +15,7 @@ namespace {
             const app& app,
             const UUID::uuid& id
         ) -> void {
-            minty::cli::client([&id](auto& api) -> ext::task<> {
+            minty::cli::api([&id](minty::api& api) -> ext::task<> {
                 const auto post = co_await api.get_post(id);
 
                 minty::cli::print(post.tags);

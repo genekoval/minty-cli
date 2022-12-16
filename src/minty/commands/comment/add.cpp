@@ -1,7 +1,7 @@
 #include "commands.h"
-
-#include "../../client.h"
 #include "../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -12,10 +12,7 @@ namespace {
             const UUID::uuid& post,
             std::string_view content
         ) -> void {
-            minty::cli::client([
-                &post,
-                content
-            ](auto& api) -> ext::task<> {
+            minty::cli::api([&post, content](minty::api& api) -> ext::task<> {
                 const auto result = co_await api.add_comment(post, content);
                 fmt::print("{}\n", result.id);
             });

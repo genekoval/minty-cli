@@ -1,7 +1,9 @@
-#include <detail/env.h>
+#include <detail/env.hpp>
 
 #include <minty/error.h>
 #include <timber/timber>
+
+namespace fs = std::filesystem;
 
 namespace {
     namespace defaults {
@@ -28,11 +30,15 @@ namespace {
 }
 
 namespace minty::env {
-    auto config() -> std::optional<std::filesystem::path> {
-        return get("MINTY_CONFIG");
+    auto config() -> fs::path {
+        constexpr auto name = "MINTY_CONFIG";
+
+        const auto value = std::optional<fs::path>(get(name));
+
+        return value.value_or(home() / ".config" / "minty");
     }
 
-    auto home() -> std::filesystem::path {
+    auto home() -> fs::path {
         return require("HOME");
     }
 

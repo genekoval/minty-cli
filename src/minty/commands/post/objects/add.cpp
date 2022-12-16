@@ -1,7 +1,8 @@
 #include "commands.h"
 
-#include "../../../client.h"
 #include "../../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -15,11 +16,11 @@ namespace {
         ) -> void {
             if (objects.empty()) return;
 
-            minty::cli::client([
+            minty::cli::api([
                 index,
                 &id,
                 &objects
-            ](auto& api) -> ext::task<> {
+            ](minty::api& api) -> ext::task<> {
                 auto uploaded = std::vector<UUID::uuid>();
                 const auto object_previews = co_await api.add_objects(objects);
                 std::ranges::transform(

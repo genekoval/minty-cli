@@ -1,7 +1,7 @@
 #include "commands.h"
-
-#include "../../client.h"
 #include "../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 #include <minty/error.h>
 
@@ -14,7 +14,10 @@ namespace {
             const UUID::uuid& comment,
             std::string_view content
         ) -> void {
-            minty::cli::client([&comment, content](auto& api) -> ext::task<> {
+            minty::cli::api([
+                &comment,
+                content
+            ](minty::api& api) -> ext::task<> {
                 co_await api.set_comment_content(comment, content);
             });
         }

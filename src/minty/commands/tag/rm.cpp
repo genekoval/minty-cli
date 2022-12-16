@@ -1,7 +1,8 @@
 #include "commands.h"
 
-#include "../../client.h"
 #include "../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -11,7 +12,7 @@ namespace {
             const app& app,
             const UUID::uuid& id
         ) -> void {
-            minty::cli::client([&id](auto& api) -> ext::task<> {
+            minty::cli::api([&id](minty::api& api) -> ext::task<> {
                 co_await api.delete_tag(id);
             });
         }

@@ -1,10 +1,11 @@
 #include "commands.h"
 
 #include "../commands.h"
-#include "../../client.h"
 #include "../../options/opts.h"
 #include "../../output/output.h"
 #include "../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -16,11 +17,11 @@ namespace {
             bool quiet,
             const UUID::uuid& id
         ) -> void {
-            minty::cli::client([
+            minty::cli::api([
                 json,
                 quiet,
                 &id
-            ](auto& api) -> ext::task<> {
+            ](minty::api& api) -> ext::task<> {
                 const auto obj = co_await api.get_object(id);
                 minty::cli::output::entity(obj, json, !quiet);
             });

@@ -1,8 +1,9 @@
 #include "commands.h"
 
-#include "../../client.h"
 #include "../../options/opts.h"
 #include "../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -15,12 +16,12 @@ namespace {
             const std::vector<UUID::uuid>& tags,
             const std::vector<std::string_view>& objects
         ) -> void {
-            minty::cli::client([
+            minty::cli::api([
                 &title,
                 &description,
                 &tags,
                 &objects
-            ](auto& api) -> ext::task<> {
+            ](minty::api& api) -> ext::task<> {
                 auto parts = minty::core::post_parts {
                     .title = title,
                     .description = description,

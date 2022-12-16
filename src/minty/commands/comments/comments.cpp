@@ -1,8 +1,9 @@
 #include "../commands.h"
-#include "../../client.h"
 #include "../../options/opts.h"
 #include "../../output/output.h"
 #include "../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -14,7 +15,11 @@ namespace {
             bool quiet,
             const UUID::uuid& post
         ) -> void {
-            minty::cli::client([json, quiet, &post](auto& api) -> ext::task<> {
+            minty::cli::api([
+                json,
+                quiet,
+                &post
+            ](minty::api& api) -> ext::task<> {
                 const auto comment_list = co_await api.get_comments(post);
                 minty::cli::output::entity(comment_list, json, !quiet);
             });

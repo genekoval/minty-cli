@@ -4,7 +4,7 @@
 #include "../view/indent.h"
 #include "../view/metadata.h"
 
-#include <detail/env.h>
+#include <detail/env.hpp>
 
 #include <ext/string.h>
 

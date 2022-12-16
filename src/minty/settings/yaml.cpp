@@ -1,4 +1,4 @@
-#include "yaml.h"
+#include "yaml.hpp"
 
 namespace c = conftools;
 
@@ -6,14 +6,14 @@ using namespace minty::cli;
 
 namespace YAML {
     DECODE(
-        conf::log,
-        c::optional("level", &conf::log::level)
+        settings::log_config,
+        c::optional("level", &settings::log_config::level)
     );
 
     DECODE(
-        conf::server,
-        c::required("objects", &conf::server::objects),
-        c::required("host", &conf::server::host)
+        settings::server_config,
+        c::required("objects", &settings::server_config::objects),
+        c::required("host", &settings::server_config::host)
     );
 
     DECODE(

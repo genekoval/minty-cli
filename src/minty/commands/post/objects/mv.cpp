@@ -1,7 +1,8 @@
 #include "commands.h"
 
-#include "../../../client.h"
 #include "../../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -15,11 +16,11 @@ namespace {
         ) -> void {
             if (objects.empty()) return;
 
-            minty::cli::client([
+            minty::cli::api([
                 &destination,
                 &id,
                 &objects
-            ](auto& api) -> ext::task<> {
+            ](minty::api& api) -> ext::task<> {
                 co_await api.move_post_objects(id, objects, destination);
             });
         }

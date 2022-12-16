@@ -1,7 +1,8 @@
 #include "commands.h"
 
-#include "../../client.h"
 #include "../../parser/parser.h"
+
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -13,11 +14,11 @@ namespace {
             const UUID::uuid& id,
             std::optional<std::string_view> description
         ) -> void {
-            minty::cli::client([
+            minty::cli::api([
                 clear,
                 &id,
                 description
-            ](auto& api) -> ext::task<> {
+            ](minty::api& api) -> ext::task<> {
                 if (clear) {
                     co_await api.set_post_description(id, "");
                     co_return;

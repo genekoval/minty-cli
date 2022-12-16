@@ -1,8 +1,6 @@
 #include "commands.h"
 
-#include "../../client.h"
-
-#include <iostream>
+#include <detail/client.hpp>
 
 using namespace commline;
 
@@ -12,7 +10,7 @@ namespace {
             const app& app,
             std::string_view name
         ) -> void {
-            minty::cli::client([name](auto& api) -> ext::task<> {
+            minty::cli::api([name](minty::api& api) -> ext::task<> {
                 const auto id = co_await api.add_tag(name);
                 fmt::print("{}\n", id);
             });
