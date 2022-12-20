@@ -5,26 +5,7 @@
 #include <minty/minty>
 #include <nlohmann/json.hpp>
 
-namespace minty::repo::db {
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
-        comment,
-        id,
-        post_id,
-        parent_id,
-        indent,
-        content,
-        date_created
-    );
-
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
-        tag_preview,
-        id,
-        name,
-        avatar
-    );
-}
-
-namespace minty::core {
+namespace minty {
     template <typename T>
     auto from_json(const nlohmann::json& j, search_result<T>& r) -> void {
         j.get_to(r.hits);
@@ -39,6 +20,16 @@ namespace minty::core {
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         comment,
+        id,
+        post_id,
+        parent_id,
+        indent,
+        content,
+        date_created
+    );
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        comment_data,
         id,
         content,
         indent,
@@ -67,6 +58,13 @@ namespace minty::core {
         comment_count,
         object_count,
         date_created
+    );
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        tag_preview,
+        id,
+        name,
+        avatar
     );
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(

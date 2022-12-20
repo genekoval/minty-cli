@@ -4,10 +4,10 @@
 #include "../view/metadata.h"
 
 namespace minty::cli::output {
-    auto human_readable<core::object>::print(
+    auto human_readable<object>::print(
         std::FILE* f,
         int indent,
-        const core::object& object
+        const object& object
     ) -> void {
         const auto size = fmt::format(
             "{} ({:L} bytes)",

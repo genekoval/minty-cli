@@ -2,7 +2,7 @@
 
 #include "style.h"
 
-#include <minty/core/model.h>
+#include <minty/minty>
 
 #include <ext/math.h>
 #include <fmt/color.h>
@@ -20,30 +20,30 @@ namespace minty::cli::output {
     template <typename T>
     struct human_readable {};
 
-    MINTY_HUMAN_READABLE(core::comment);
+    MINTY_HUMAN_READABLE(comment);
 
-    MINTY_HUMAN_READABLE(core::comment_detail);
+    MINTY_HUMAN_READABLE(comment_data);
 
-    MINTY_HUMAN_READABLE(std::vector<core::comment>);
+    MINTY_HUMAN_READABLE(std::vector<comment_data>);
 
-    MINTY_HUMAN_READABLE(core::object_preview);
+    MINTY_HUMAN_READABLE(object_preview);
 
-    MINTY_HUMAN_READABLE(core::object);
+    MINTY_HUMAN_READABLE(object);
 
-    MINTY_HUMAN_READABLE(core::post_preview)
+    MINTY_HUMAN_READABLE(post_preview)
 
-    MINTY_HUMAN_READABLE(core::post)
+    MINTY_HUMAN_READABLE(post)
 
-    MINTY_HUMAN_READABLE(repo::db::tag_preview)
+    MINTY_HUMAN_READABLE(tag_preview)
 
-    MINTY_HUMAN_READABLE(core::tag)
+    MINTY_HUMAN_READABLE(tag)
 
     template <typename T>
-    struct human_readable<core::search_result<T>> {
+    struct human_readable<search_result<T>> {
         static auto print(
             std::FILE* f,
             int indent,
-            const core::search_result<T>& result
+            const search_result<T>& result
         ) -> void {
             if (result.total == 0) {
                 fmt::print(f, "No matches found\n");

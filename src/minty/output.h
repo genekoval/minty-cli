@@ -1,49 +1,48 @@
 #pragma once
 
-#include <minty/core/model.h>
-
+#include <minty/minty>
 #include <yaml-cpp/yaml.h>
 
 namespace YAML {
     auto operator<<(
         Emitter& out,
-        const minty::core::comment& comment
+        const minty::comment& comment
     ) -> Emitter&;
 
     auto operator<<(
         Emitter& out,
-        const minty::core::comment_detail& comment
+        const minty::comment_data& comment
     ) -> Emitter&;
 
     auto operator<<(
         Emitter& out,
-        const minty::core::data_size& data_size
+        const minty::data_size& data_size
     ) -> Emitter&;
 
     auto operator<<(
         Emitter& out,
-        const minty::core::object& object
+        const minty::object& object
     ) -> Emitter&;
 
     auto operator<<(
         Emitter& out,
-        const minty::core::object_preview& object
+        const minty::object_preview& object
     ) -> Emitter&;
 
     auto operator<<(
         Emitter& out,
-        const minty::core::post& post
+        const minty::post& post
     ) -> Emitter&;
 
     auto operator<<(
         Emitter& out,
-        const minty::core::post_preview& post
+        const minty::post_preview& post
     ) -> Emitter&;
 
     template <typename T>
     auto operator<<(
         Emitter& out,
-        const minty::core::search_result<T> result
+        const minty::search_result<T> result
     ) -> Emitter& {
         out << BeginMap;
 
@@ -59,17 +58,17 @@ namespace YAML {
 
     auto operator<<(
         Emitter& out,
-        const minty::core::tag& tag
+        const minty::tag& tag
     ) -> Emitter&;
 
     auto operator<<(
         Emitter& out,
-        const minty::core::tag_preview& tag
+        const minty::tag_preview& tag
     ) -> Emitter&;
 
     auto operator<<(
         Emitter& out,
-        const minty::repo::db::time_point& time_point
+        const minty::time_point& time_point
     ) -> Emitter&;
 
     auto operator<<(

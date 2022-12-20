@@ -22,7 +22,7 @@ namespace {
                 &tags,
                 &objects
             ](minty::api& api) -> ext::task<> {
-                auto parts = minty::core::post_parts {
+                auto parts = minty::post_parts {
                     .title = title,
                     .description = description,
                     .tags = tags

@@ -6,10 +6,10 @@
 namespace style = minty::cli::output::style;
 
 namespace minty::cli::output {
-    auto human_readable<core::post>::print(
+    auto human_readable<post>::print(
         std::FILE* f,
         int indent,
-        const core::post& post
+        const post& post
     ) -> void {
         if (post.title) {
             fmt::print(f, style::title, "{}\n\n", *post.title);

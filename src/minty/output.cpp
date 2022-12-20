@@ -7,21 +7,7 @@
 namespace YAML {
     auto operator<<(
         Emitter& out,
-        const minty::core::comment& comment
-    ) -> Emitter& {
-        out
-            << BeginMap
-            << Key << "id" << Value << comment.id
-            << Key << "content" << Value << comment.content
-            << Key << "date posted" << Value << comment.date_created
-            << EndMap;
-
-        return out;
-    }
-
-    auto operator<<(
-        Emitter& out,
-        const minty::core::comment_detail& comment
+        const minty::comment& comment
     ) -> Emitter& {
         out
             << BeginMap
@@ -44,7 +30,21 @@ namespace YAML {
 
     auto operator<<(
         Emitter& out,
-        const minty::core::data_size& data_size
+        const minty::comment_data& comment
+    ) -> Emitter& {
+        out
+            << BeginMap
+            << Key << "id" << Value << comment.id
+            << Key << "content" << Value << comment.content
+            << Key << "date posted" << Value << comment.date_created
+            << EndMap;
+
+        return out;
+    }
+
+    auto operator<<(
+        Emitter& out,
+        const minty::data_size& data_size
     ) -> Emitter& {
         out
             << BeginMap
@@ -57,7 +57,7 @@ namespace YAML {
 
     auto operator<<(
         Emitter& out,
-        const minty::core::tag& tag
+        const minty::tag& tag
     ) -> Emitter& {
         out << BeginMap;
 
@@ -105,7 +105,7 @@ namespace YAML {
 
     auto operator<<(
         Emitter& out,
-        const minty::core::tag_preview& tag
+        const minty::tag_preview& tag
     ) -> Emitter& {
         out
             << BeginMap
@@ -118,7 +118,7 @@ namespace YAML {
 
     auto operator<<(
         Emitter& out,
-        const minty::core::object& object
+        const minty::object& object
     ) -> Emitter& {
         out << BeginMap
             << Key << "id" << Value << object.id
@@ -149,7 +149,7 @@ namespace YAML {
 
     auto operator<<(
         Emitter& out,
-        const minty::core::object_preview& object
+        const minty::object_preview& object
     ) -> Emitter& {
         out << BeginMap
             << Key << "id" << Value << object.id
@@ -162,7 +162,7 @@ namespace YAML {
 
     auto operator<<(
         Emitter& out,
-        const minty::core::post& post
+        const minty::post& post
     ) -> Emitter& {
         out << BeginMap;
 
@@ -196,7 +196,7 @@ namespace YAML {
 
     auto operator<<(
         Emitter& out,
-        const minty::core::post_preview& post
+        const minty::post_preview& post
     ) -> Emitter& {
         out << BeginMap;
 
@@ -213,7 +213,7 @@ namespace YAML {
 
     auto operator<<(
         Emitter& out,
-        const minty::repo::db::time_point& time_point
+        const minty::time_point& time_point
     ) -> Emitter& {
         const auto* zone = date::current_zone();
         const auto zoned = date::make_zoned(zone, time_point);

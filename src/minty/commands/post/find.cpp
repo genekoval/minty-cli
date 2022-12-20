@@ -17,7 +17,7 @@ namespace {
             unsigned int from,
             unsigned int size,
             const std::vector<UUID::uuid>& tags,
-            minty::core::post_query::sort_type sort,
+            minty::post_sort sort,
             std::optional<output::format> format,
             bool quiet,
             const std::optional<std::string>& text
@@ -31,7 +31,7 @@ namespace {
                 quiet,
                 &text
             ](minty::api& api) -> ext::task<> {
-                const auto query = minty::core::post_query {
+                const auto query = minty::post_query {
                     .from = from,
                     .size = size,
                     .text = text,
@@ -56,13 +56,13 @@ namespace minty::subcommands::post {
                 cli::opts::from(),
                 cli::opts::size(),
                 cli::opts::tags(),
-                option<core::post_query::sort_type>(
+                option<post_sort>(
                     {"s", "sort-by"},
                     "Result sort",
                     "",
                     {
-                        .value = core::post_sort_value::date_created,
-                        .order = core::sort_order::descending
+                        .value = post_sort_value::date_created,
+                        .order = sort_order::descending
                     }
                 ),
                 cli::opts::output(),

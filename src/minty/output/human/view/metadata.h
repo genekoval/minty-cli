@@ -128,7 +128,7 @@ namespace minty::cli::output {
         auto print_row(
             std::FILE* f,
             std::string_view label,
-            const core::source& source
+            const source& source
         ) -> void {
             print_label(f, label);
             fmt::print(f, style::link, source.url);

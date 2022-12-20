@@ -3,10 +3,10 @@
 #include "../view/metadata.h"
 
 namespace minty::cli::output {
-    auto human_readable<core::post_preview>::print(
+    auto human_readable<post_preview>::print(
         std::FILE* f,
         int indent,
-        const core::post_preview& post
+        const post_preview& post
     ) -> void {
         if (post.title) fmt::print(f, fmt::emphasis::bold, "{}\n", *post.title);
         else fmt::print(f, fmt::emphasis::italic, "Untitled\n");

@@ -2,10 +2,10 @@
 #include "../view/metadata.h"
 
 namespace minty::cli::output {
-    auto human_readable<core::object_preview>::print(
+    auto human_readable<object_preview>::print(
         std::FILE* f,
         int indent,
-        const core::object_preview& object
+        const object_preview& object
     ) -> void {
         fmt::print(f, "{}\n", object.id);
 

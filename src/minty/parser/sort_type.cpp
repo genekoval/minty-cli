@@ -2,8 +2,8 @@
 
 using namespace std::literals;
 
-using minty::core::sort_order;
-using sort_value = minty::core::post_sort_value;
+using minty::sort_order;
+using sort_value = minty::post_sort_value;
 
 namespace {
     constexpr auto ascending = "ascending"sv;
@@ -64,9 +64,9 @@ namespace {
 }
 
 namespace commline {
-    auto parser<minty::core::post_query::sort_type>::parse(
+    auto parser<minty::post_sort>::parse(
         std::string_view argument
-    ) -> minty::core::post_query::sort_type {
+    ) -> minty::post_sort {
         const auto delim = argument.find(delimiter);
 
         const auto value = get_value(argument.substr(0, delim));

@@ -10,13 +10,12 @@
 
 namespace style = minty::cli::output::style;
 
+using minty::time_point;
 using minty::cli::output::format_date;
 using minty::cli::output::format_duration;
 using minty::cli::output::print_indent;
 
 namespace {
-    using date_type = decltype(minty::core::comment::date_created);
-
     constexpr auto divider_style = style::secondary;
     constexpr auto metadata_style = style::secondary;
 
@@ -85,7 +84,7 @@ namespace {
             }
         }
 
-        auto timestamp(date_type value) -> void {
+        auto timestamp(time_point value) -> void {
             indent_with_separator();
             fmt::print(f, metadata_style, "{}{}{}\n",
                 format_duration(value),
@@ -97,27 +96,10 @@ namespace {
 }
 
 namespace minty::cli::output {
-    auto human_readable<core::comment>::print(
+    auto human_readable<comment>::print(
         std::FILE* f,
         int indent,
-        const core::comment& comment
-    ) -> void {
-        constexpr auto indent_spaces = 4;
-
-        auto p = printer(f, indent + indent_spaces * comment.indent);
-
-        p.divider();
-        p.indent_with_separator();
-        fmt::print(f, metadata_style, "{}\n", comment.id);
-        p.timestamp(comment.date_created);
-        p.text(comment.content);
-        p.newline();
-    }
-
-    auto human_readable<core::comment_detail>::print(
-        std::FILE* f,
-        int indent,
-        const core::comment_detail& comment
+        const comment& comment
     ) -> void {
         auto meta = metadata(
             make_row("ID", comment.id),
@@ -135,13 +117,30 @@ namespace minty::cli::output {
         p.text(comment.content);
     }
 
-    auto human_readable<std::vector<core::comment>>::print(
+    auto human_readable<comment_data>::print(
         std::FILE* f,
         int indent,
-        const std::vector<core::comment>& comments
+        const comment_data& comment
+    ) -> void {
+        constexpr auto indent_spaces = 4;
+
+        auto p = printer(f, indent + indent_spaces * comment.indent);
+
+        p.divider();
+        p.indent_with_separator();
+        fmt::print(f, metadata_style, "{}\n", comment.id);
+        p.timestamp(comment.date_created);
+        p.text(comment.content);
+        p.newline();
+    }
+
+    auto human_readable<std::vector<comment_data>>::print(
+        std::FILE* f,
+        int indent,
+        const std::vector<comment_data>& comments
     ) -> void {
         for (const auto& comment : comments) {
-            human_readable<core::comment>::print(f, indent, comment);
+            human_readable<comment_data>::print(f, indent, comment);
         }
     }
 }

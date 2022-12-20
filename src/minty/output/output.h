@@ -27,7 +27,7 @@ namespace minty::cli::output {
     template <typename T>
     auto id(
         std::ostream& out,
-        const minty::core::search_result<T>& result
+        const minty::search_result<T>& result
     ) -> void {
         for (const auto& hit : result.hits) {
             out << hit.id << "\n";
@@ -52,7 +52,7 @@ namespace minty::cli::output {
 
     template <typename T>
     auto result(
-        const minty::core::search_result<T>& result,
+        const minty::search_result<T>& result,
         const std::optional<format>& f,
         bool suppress_human_output
     ) -> void {

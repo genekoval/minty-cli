@@ -2,10 +2,10 @@
 #include "../view/metadata.h"
 
 namespace minty::cli::output {
-    auto human_readable<repo::db::tag_preview>::print(
+    auto human_readable<tag_preview>::print(
         std::FILE* f,
         int indent,
-        const repo::db::tag_preview& tag
+        const tag_preview& tag
     ) -> void {
         fmt::print(f, fmt::emphasis::bold, "{}\n", tag.name);
 

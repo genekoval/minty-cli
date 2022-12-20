@@ -27,7 +27,7 @@ namespace {
                 quiet,
                 &name
             ](minty::api& api) -> ext::task<> {
-                const auto query = minty::core::tag_query {
+                const auto query = minty::tag_query {
                     .from = from,
                     .size = size,
                     .name = name
