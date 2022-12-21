@@ -1,6 +1,6 @@
 #include <detail/env.hpp>
 
-#include <minty/error.h>
+#include <minty/minty>
 #include <timber/timber>
 
 namespace fs = std::filesystem;

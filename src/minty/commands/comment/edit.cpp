@@ -3,8 +3,6 @@
 
 #include <detail/client.hpp>
 
-#include <minty/error.h>
-
 using namespace commline;
 
 namespace {
