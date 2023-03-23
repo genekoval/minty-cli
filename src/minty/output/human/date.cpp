@@ -1,5 +1,6 @@
 #include "date.h"
 
+#include <array>
 #include <date/date.h>
 #include <date/tz.h>
 
