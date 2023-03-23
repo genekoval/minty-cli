@@ -21,13 +21,13 @@ namespace {
     }
 }
 
-auto main(int argc, const char** argv) -> int {
+auto main(int argc, char** argv) -> int {
     using namespace commline;
 
     std::locale::global(std::locale(""));
 
     timber::reporting_level = timber::level::info;
-    timber::log_handler = &timber::console_logger;
+    timber::log_handler = &timber::console::logger;
 
     auto app = application(
         NAME,
