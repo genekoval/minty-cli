@@ -10,6 +10,10 @@ using namespace commline;
 
 namespace output = minty::cli::output;
 
+using minty::post_query;
+using minty::post_sort;
+using minty::visibility;
+
 namespace {
     namespace internal {
         auto find(
@@ -17,7 +21,7 @@ namespace {
             unsigned int from,
             unsigned int size,
             const std::vector<UUID::uuid>& tags,
-            minty::post_sort sort,
+            post_sort sort,
             std::optional<output::format> format,
             bool quiet,
             const std::optional<std::string>& text
@@ -31,11 +35,12 @@ namespace {
                 quiet,
                 &text
             ](minty::api& api) -> ext::task<> {
-                const auto query = minty::post_query {
+                const auto query = post_query {
                     .from = from,
                     .size = size,
                     .text = text,
                     .tags = tags,
+                    .visibility = visibility::pub,
                     .sort = sort
                 };
 

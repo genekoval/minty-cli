@@ -11,31 +11,42 @@ namespace {
     namespace internal {
         auto add(
             const app& app,
-            std::string title,
-            std::string description,
+            const std::string& title,
+            const std::string& description,
             const std::vector<UUID::uuid>& tags,
             const std::vector<std::string_view>& objects
         ) -> void {
-            minty::cli::api([
-                &title,
-                &description,
-                &tags,
-                &objects
-            ](minty::api& api) -> ext::task<> {
-                auto parts = minty::post_parts {
-                    .title = title,
-                    .description = description,
-                    .tags = tags
-                };
+            minty::cli::api([&](minty::api& api) -> ext::task<> {
+                const auto id = co_await api.create_post_draft();
 
-                const auto object_previews = co_await api.add_objects(objects);
-                std::ranges::transform(
-                    object_previews,
-                    std::back_inserter(parts.objects),
-                    [](const auto& obj) -> UUID::uuid { return obj.id; }
-                );
+                if (!title.empty()) {
+                    co_await api.set_post_title(id, title);
+                }
 
-                const auto id = co_await api.add_post(parts);
+                if (!description.empty()) {
+                    co_await api.set_post_description(id, description);
+                }
+
+                for (const auto& tag : tags) {
+                    co_await api.add_post_tag(id, tag);
+                }
+
+                if (!objects.empty()) {
+                    const auto previews = co_await api.add_objects(objects);
+
+                    auto objs = std::vector<UUID::uuid>();
+                    objs.reserve(previews.size());
+
+                    std::ranges::transform(
+                        previews,
+                        std::back_inserter(objs),
+                        [](const auto& obj) -> UUID::uuid { return obj.id; }
+                    );
+
+                    co_await api.add_post_objects(id, objs, -1);
+                }
+
+                co_await api.create_post(id);
                 fmt::print("{}\n", id);
             });
         }
