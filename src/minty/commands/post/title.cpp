@@ -13,10 +13,10 @@ namespace {
             const UUID::uuid& id,
             std::optional<std::string_view> title
         ) -> void {
-            minty::cli::api([&id, title](minty::api& api) -> ext::task<> {
-                if (title) co_await api.set_post_title(id, *title);
+            minty::cli::repo([&id, title](minty::repo& repo) -> ext::task<> {
+                if (title) co_await repo.set_post_title(id, *title);
 
-                const auto post = co_await api.get_post(id);
+                const auto post = co_await repo.get_post(id);
                 if (post.title) fmt::print("{}\n", *post.title);
             });
         }

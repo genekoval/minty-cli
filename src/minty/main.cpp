@@ -13,8 +13,8 @@ namespace {
 
             commline::print_version(std::cout, app);
 
-            minty::cli::api([](minty::api& api) -> ext::task<> {
-                const auto info = co_await api.get_server_info();
+            minty::cli::repo([](minty::repo& repo) -> ext::task<> {
+                const auto info = co_await repo.get_server_info();
                 fmt::print("server version: {}\n", info.version);
             });
         }

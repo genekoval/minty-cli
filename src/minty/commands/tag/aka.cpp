@@ -17,13 +17,13 @@ namespace {
             const UUID::uuid& id,
             std::string_view alias
         ) -> void {
-            minty::cli::api([
+            minty::cli::repo([
                 json,
                 quiet,
                 &id,
                 alias
-            ](minty::api& api) -> ext::task<> {
-                auto tag = co_await api.get_tag(id);
+            ](minty::repo& repo) -> ext::task<> {
+                auto tag = co_await repo.get_tag(id);
 
                 const auto end = tag.aliases.end();
                 const auto result = std::ranges::find(
@@ -33,11 +33,11 @@ namespace {
                 );
 
                 if (result != end) {
-                    co_await api.delete_tag_alias(id, alias);
+                    co_await repo.delete_tag_alias(id, alias);
                     tag.aliases.erase(result);
                 }
                 else {
-                    co_await api.add_tag_alias(id, alias);
+                    co_await repo.add_tag_alias(id, alias);
                     tag.aliases.emplace_back(alias);
                     std::sort(tag.aliases.begin(), tag.aliases.end());
                 }

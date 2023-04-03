@@ -15,8 +15,8 @@ namespace {
             const app& app,
             const UUID::uuid& id
         ) -> void {
-            minty::cli::api([&id](minty::api& api) -> ext::task<> {
-                const auto post = co_await api.get_post(id);
+            minty::cli::repo([&id](minty::repo& repo) -> ext::task<> {
+                const auto post = co_await repo.get_post(id);
 
                 minty::cli::print(post.posts);
             });

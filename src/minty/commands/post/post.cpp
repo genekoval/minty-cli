@@ -17,12 +17,12 @@ namespace {
             bool quiet,
             const UUID::uuid& id
         ) -> void {
-            minty::cli::api([
+            minty::cli::repo([
                 json,
                 quiet,
                 &id
-            ](minty::api& api) -> ext::task<> {
-                const auto post = co_await api.get_post(id);
+            ](minty::repo& repo) -> ext::task<> {
+                const auto post = co_await repo.get_post(id);
                 minty::cli::output::entity(post, json, !quiet);
             });
         }

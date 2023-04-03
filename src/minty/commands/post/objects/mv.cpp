@@ -16,12 +16,12 @@ namespace {
         ) -> void {
             if (objects.empty()) return;
 
-            minty::cli::api([
+            minty::cli::repo([
                 &destination,
                 &id,
                 &objects
-            ](minty::api& api) -> ext::task<> {
-                co_await api.move_post_objects(id, objects, destination);
+            ](minty::repo& repo) -> ext::task<> {
+                co_await repo.move_post_objects(id, objects, destination);
             });
         }
     }

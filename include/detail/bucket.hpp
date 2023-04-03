@@ -17,7 +17,7 @@ namespace minty::cli {
         );
     public:
         static auto connect(
-            api& repo,
+            repo& repo,
             fstore::client& object_store
         ) -> ext::task<bucket>;
 

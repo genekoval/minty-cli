@@ -13,9 +13,9 @@ namespace {
             const UUID::uuid& id,
             const std::vector<UUID::uuid>& posts
         ) -> void {
-            minty::cli::api([&id, &posts](minty::api& api) -> ext::task<> {
+            minty::cli::repo([&id, &posts](minty::repo& repo) -> ext::task<> {
                 for (const auto& post : posts) {
-                    co_await api.delete_related_post(id, post);
+                    co_await repo.delete_related_post(id, post);
                 }
             });
         }

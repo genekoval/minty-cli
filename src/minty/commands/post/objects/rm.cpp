@@ -15,8 +15,8 @@ namespace {
         ) -> void {
             if (objects.empty()) return;
 
-            minty::cli::api([&id, &objects](minty::api& api) -> ext::task<> {
-                co_await api.delete_post_objects(id, objects);
+            minty::cli::repo([&id, &objects](minty::repo& repo) -> ext::task<> {
+                co_await repo.delete_post_objects(id, objects);
             });
         }
     }

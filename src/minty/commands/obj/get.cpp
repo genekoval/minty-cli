@@ -26,11 +26,11 @@ namespace {
                 const auto config = minty::cli::settings::load();
 
                 auto client = minty::cli::client(config);
-                auto api = co_await client.connect();
+                auto repo = co_await client.connect();
 
                 auto objects = minty::cli::object_store(config);
                 auto bucket =
-                    co_await minty::cli::bucket::connect(*api, objects);
+                    co_await minty::cli::bucket::connect(*repo, objects);
 
                 if (!file) {
                     co_await bucket.get(id, std::cout);

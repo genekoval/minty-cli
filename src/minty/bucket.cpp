@@ -16,7 +16,7 @@ namespace minty::cli {
     {}
 
     auto bucket::connect(
-        api& repo,
+        repo& repo,
         fstore::client& object_store
     ) -> ext::task<bucket> {
         const auto server = co_await repo.get_server_info();

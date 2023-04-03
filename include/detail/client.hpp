@@ -22,13 +22,13 @@ namespace minty::cli {
     }
 
     template <typename F>
-    requires requires(const F& f, minty::api& api) {
-        { f(api) } -> std::same_as<ext::task<>>;
+    requires requires(const F& f, minty::repo& repo) {
+        { f(repo) } -> std::same_as<ext::task<>>;
     }
-    auto api(const F& f) -> void {
+    auto repo(const F& f) -> void {
         client([&](minty::client& client) -> ext::task<> {
-            auto api = co_await client.connect();
-            co_await f(*api);
+            auto repo = co_await client.connect();
+            co_await f(*repo);
         });
     }
 }

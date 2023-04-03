@@ -14,13 +14,13 @@ namespace {
             const UUID::uuid& id,
             std::optional<std::string_view> description
         ) -> void {
-            minty::cli::api([
+            minty::cli::repo([
                 clear,
                 &id,
                 description
-            ](minty::api& api) -> ext::task<> {
+            ](minty::repo& repo) -> ext::task<> {
                 if (clear) {
-                    co_await api.set_post_description(id, "");
+                    co_await repo.set_post_description(id, "");
                     co_return;
                 }
 
@@ -29,7 +29,7 @@ namespace {
                 }
 
                 const auto [modified, result] =
-                    co_await api.set_post_description(id, *description);
+                    co_await repo.set_post_description(id, *description);
 
                 if (result) fmt::print("{}\n", *result);
             });

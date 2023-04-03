@@ -26,7 +26,7 @@ namespace {
             bool quiet,
             const std::optional<std::string>& text
         ) -> void {
-            minty::cli::api([
+            minty::cli::repo([
                 from,
                 size,
                 &tags,
@@ -34,7 +34,7 @@ namespace {
                 format,
                 quiet,
                 &text
-            ](minty::api& api) -> ext::task<> {
+            ](minty::repo& repo) -> ext::task<> {
                 const auto query = post_query {
                     .from = from,
                     .size = size,
@@ -44,7 +44,7 @@ namespace {
                     .sort = sort
                 };
 
-                const auto result = co_await api.get_posts(query);
+                const auto result = co_await repo.get_posts(query);
 
                 output::result(result, format, quiet);
             });

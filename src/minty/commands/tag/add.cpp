@@ -10,8 +10,8 @@ namespace {
             const app& app,
             std::string_view name
         ) -> void {
-            minty::cli::api([name](minty::api& api) -> ext::task<> {
-                const auto id = co_await api.add_tag(name);
+            minty::cli::repo([name](minty::repo& repo) -> ext::task<> {
+                const auto id = co_await repo.add_tag(name);
                 fmt::print("{}\n", id);
             });
         }

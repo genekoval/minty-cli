@@ -15,12 +15,12 @@ namespace {
             bool quiet,
             const UUID::uuid& post
         ) -> void {
-            minty::cli::api([
+            minty::cli::repo([
                 json,
                 quiet,
                 &post
-            ](minty::api& api) -> ext::task<> {
-                const auto comment_list = co_await api.get_comments(post);
+            ](minty::repo& repo) -> ext::task<> {
+                const auto comment_list = co_await repo.get_comments(post);
                 minty::cli::output::entity(comment_list, json, !quiet);
             });
         }

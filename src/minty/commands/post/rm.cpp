@@ -12,8 +12,8 @@ namespace {
             const app& app,
             const UUID::uuid& id
         ) -> void {
-            minty::cli::api([&id](minty::api& api) -> ext::task<> {
-                co_await api.delete_post(id);
+            minty::cli::repo([&id](minty::repo& repo) -> ext::task<> {
+                co_await repo.delete_post(id);
             });
         }
     }

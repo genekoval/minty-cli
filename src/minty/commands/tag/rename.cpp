@@ -16,8 +16,10 @@ namespace {
             const UUID::uuid& id,
             std::string_view name
         ) -> void {
-            minty::cli::api([quiet, &id, name](minty::api& api) -> ext::task<> {
-                const auto names = co_await api.set_tag_name(id, name);
+            minty::cli::repo([quiet, &id, name](
+                minty::repo& repo
+            ) -> ext::task<> {
+                const auto names = co_await repo.set_tag_name(id, name);
 
                 if (quiet) co_return;
 

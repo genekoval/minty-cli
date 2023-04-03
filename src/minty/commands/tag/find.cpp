@@ -20,20 +20,20 @@ namespace {
             bool quiet,
             const std::string& name
         ) -> void {
-            minty::cli::api([
+            minty::cli::repo([
                 from,
                 size,
                 format,
                 quiet,
                 &name
-            ](minty::api& api) -> ext::task<> {
+            ](minty::repo& repo) -> ext::task<> {
                 const auto query = minty::tag_query {
                     .from = from,
                     .size = size,
                     .name = name
                 };
 
-                const auto result = co_await api.get_tags(query);
+                const auto result = co_await repo.get_tags(query);
 
                 output::result(result, format, quiet);
             });

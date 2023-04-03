@@ -17,13 +17,13 @@ namespace {
             const UUID::uuid& id,
             std::string_view url
         ) -> void {
-            minty::cli::api([
+            minty::cli::repo([
                 json,
                 quiet,
                 &id,
                 url
-            ](minty::api& api) -> ext::task<> {
-                auto tag = co_await api.get_tag(id);
+            ](minty::repo& repo) -> ext::task<> {
+                auto tag = co_await repo.get_tag(id);
 
                 const auto end = tag.sources.end();
                 const auto result = std::ranges::find_if(
@@ -33,11 +33,11 @@ namespace {
                 );
 
                 if (result != end) {
-                    co_await api.delete_tag_source(id, result->id);
+                    co_await repo.delete_tag_source(id, result->id);
                     tag.sources.erase(result);
                 }
                 else {
-                    const auto source = co_await api.add_tag_source(id, url);
+                    const auto source = co_await repo.add_tag_source(id, url);
                     tag.sources.push_back(source);
                 }
 

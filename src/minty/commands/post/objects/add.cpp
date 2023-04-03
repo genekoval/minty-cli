@@ -16,9 +16,9 @@ namespace {
         ) -> void {
             if (objects.empty()) return;
 
-            minty::cli::api([&](minty::api& api) -> ext::task<> {
+            minty::cli::repo([&](minty::repo& repo) -> ext::task<> {
                 auto uploaded = std::vector<UUID::uuid>();
-                const auto object_previews = co_await api.add_objects(objects);
+                const auto object_previews = co_await repo.add_objects(objects);
                 std::ranges::transform(
                     object_previews,
                     std::back_inserter(uploaded),
@@ -26,7 +26,7 @@ namespace {
                 );
 
                 if (!uploaded.empty()) {
-                    co_await api.add_post_objects(id, uploaded, insert);
+                    co_await repo.add_post_objects(id, uploaded, insert);
                 }
             });
         }

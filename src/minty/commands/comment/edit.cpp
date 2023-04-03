@@ -12,11 +12,11 @@ namespace {
             const UUID::uuid& comment,
             std::string_view content
         ) -> void {
-            minty::cli::api([
+            minty::cli::repo([
                 &comment,
                 content
-            ](minty::api& api) -> ext::task<> {
-                co_await api.set_comment_content(comment, content);
+            ](minty::repo& repo) -> ext::task<> {
+                co_await repo.set_comment_content(comment, content);
             });
         }
     }
