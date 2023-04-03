@@ -43,7 +43,7 @@ namespace {
                         [](const auto& obj) -> UUID::uuid { return obj.id; }
                     );
 
-                    co_await api.add_post_objects(id, objs, -1);
+                    co_await api.add_post_objects(id, objs, std::nullopt);
                 }
 
                 co_await api.create_post(id);

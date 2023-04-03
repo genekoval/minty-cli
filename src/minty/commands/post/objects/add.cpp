@@ -10,17 +10,13 @@ namespace {
     namespace internal {
         auto add(
             const app& app,
-            std::int16_t index,
+            const std::optional<UUID::uuid>& insert,
             const UUID::uuid& id,
             const std::vector<std::string_view>& objects
         ) -> void {
             if (objects.empty()) return;
 
-            minty::cli::api([
-                index,
-                &id,
-                &objects
-            ](minty::api& api) -> ext::task<> {
+            minty::cli::api([&](minty::api& api) -> ext::task<> {
                 auto uploaded = std::vector<UUID::uuid>();
                 const auto object_previews = co_await api.add_objects(objects);
                 std::ranges::transform(
@@ -30,7 +26,7 @@ namespace {
                 );
 
                 if (!uploaded.empty()) {
-                    co_await api.add_post_objects(id, uploaded, index);
+                    co_await api.add_post_objects(id, uploaded, insert);
                 }
             });
         }
@@ -43,11 +39,10 @@ namespace minty::subcommands::post_objects {
             __FUNCTION__,
             "Add objects to a post",
             options(
-                option<std::int16_t>(
-                    {"i", "index"},
-                    "Index of where to add the objects",
-                    "number",
-                    -1 // Append to the end.
+                option<std::optional<UUID::uuid>>(
+                    {"i", "insert"},
+                    "Object to insert in front of",
+                    "ID"
                 )
             ),
             arguments(
