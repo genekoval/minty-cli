@@ -7,9 +7,13 @@ namespace minty::subcommands::post {
 
     auto desc() -> std::unique_ptr<commline::command_node>;
 
+    auto draft() -> std::unique_ptr<commline::command_node>;
+
     auto find() -> std::unique_ptr<commline::command_node>;
 
     auto objects() -> std::unique_ptr<commline::command_node>;
+
+    auto publish() -> std::unique_ptr<commline::command_node>;
 
     auto related() -> std::unique_ptr<commline::command_node>;
 

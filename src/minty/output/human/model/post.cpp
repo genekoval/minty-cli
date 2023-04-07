@@ -3,8 +3,6 @@
 #include "../view/list.h"
 #include "../view/metadata.h"
 
-namespace style = minty::cli::output::style;
-
 namespace minty::cli::output {
     auto human_readable<post>::print(
         std::FILE* f,
@@ -34,11 +32,15 @@ namespace minty::cli::output {
             ul(f, indent + 4, post.tags);
         }
 
+        auto visibility = std::string(minty::to_string(post.visibility));
+        visibility[0] = std::toupper(visibility[0]);
+
         const auto modified = post.date_created != post.date_modified ?
             std::make_optional(post.date_modified) : std::nullopt;
 
         auto meta = metadata(
             make_row("ID", post.id),
+            make_row("Visibility", visibility),
             make_row("Created", post.date_created),
             make_row("Modified", modified)
         );

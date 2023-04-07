@@ -6,6 +6,12 @@
 #include <nlohmann/json.hpp>
 
 namespace minty {
+    NLOHMANN_JSON_SERIALIZE_ENUM(visibility, {
+        {visibility::invalid, nullptr},
+        {visibility::draft, "draft"},
+        {visibility::pub, "public"}
+    })
+
     template <typename T>
     auto from_json(const nlohmann::json& j, search_result<T>& r) -> void {
         j.get_to(r.hits);
@@ -72,6 +78,7 @@ namespace minty {
         id,
         title,
         description,
+        visibility,
         date_created,
         date_modified,
         objects,

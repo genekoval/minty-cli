@@ -21,26 +21,19 @@ namespace {
             unsigned int from,
             unsigned int size,
             const std::vector<UUID::uuid>& tags,
+            bool drafts,
             post_sort sort,
             std::optional<output::format> format,
             bool quiet,
             const std::optional<std::string>& text
         ) -> void {
-            minty::cli::repo([
-                from,
-                size,
-                &tags,
-                sort,
-                format,
-                quiet,
-                &text
-            ](minty::repo& repo) -> ext::task<> {
+            minty::cli::repo([&](minty::repo& repo) -> ext::task<> {
                 const auto query = post_query {
                     .from = from,
                     .size = size,
                     .text = text,
                     .tags = tags,
-                    .visibility = visibility::pub,
+                    .visibility = drafts ? visibility::draft : visibility::pub,
                     .sort = sort
                 };
 
@@ -61,6 +54,7 @@ namespace minty::subcommands::post {
                 cli::opts::from(),
                 cli::opts::size(),
                 cli::opts::tags(),
+                flag({"d", "drafts"}, "Search for drafts"),
                 option<post_sort>(
                     {"s", "sort-by"},
                     "Result sort",
