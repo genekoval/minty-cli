@@ -16,7 +16,7 @@ namespace minty::cli {
     auto client(const F& f) -> void {
         auto client = cli::client();
 
-        netcore::async([&]() -> ext::task<> {
+        netcore::run([&]() -> ext::task<> {
             co_await f(client);
         }());
     }

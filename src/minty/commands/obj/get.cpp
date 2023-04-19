@@ -18,7 +18,7 @@ namespace {
             const UUID::uuid& id,
             std::optional<std::string_view> file
         ) -> void {
-            netcore::async([
+            netcore::run([
                 no_clobber,
                 &id,
                 file
