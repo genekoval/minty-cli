@@ -9,10 +9,10 @@ namespace minty::cli {
 
     class bucket {
         UUID::uuid bucket_id;
-        ext::pool_item<fstore::object_store> object_store;
+        fstore::client::pool::item object_store;
 
         bucket(
-            ext::pool_item<fstore::object_store>&& object_store,
+            fstore::client::pool::item&& object_store,
             const UUID::uuid& bucket_id
         );
     public:

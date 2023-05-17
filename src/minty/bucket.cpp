@@ -6,12 +6,12 @@ namespace minty::cli {
     }
 
     bucket::bucket(
-        ext::pool_item<fstore::object_store>&& object_store,
+        fstore::client::pool::item&& object_store,
         const UUID::uuid& bucket_id
     ) :
         bucket_id(bucket_id),
         object_store(
-            std::forward<ext::pool_item<fstore::object_store>>(object_store)
+            std::forward<fstore::client::pool::item>(object_store)
         )
     {}
 
