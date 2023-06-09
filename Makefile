@@ -10,11 +10,13 @@ $(program).libs := \
  $(program) \
  commline \
  conftools \
+ crypto \
  date \
  fmt \
  fstore \
  netcore \
  pthread \
+ ssl \
  timber \
  uuid++ \
  yaml-cpp \
