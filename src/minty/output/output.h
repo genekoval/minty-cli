@@ -1,7 +1,6 @@
 #pragma once
 
 #include "human/human.h"
-#include "json/model.h"
 
 #include <ext/string.h>
 #include <iostream>
