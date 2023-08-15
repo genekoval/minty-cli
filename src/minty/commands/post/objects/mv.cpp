@@ -21,7 +21,7 @@ namespace {
                 &id,
                 &objects
             ](minty::repo& repo) -> ext::task<> {
-                co_await repo.move_post_objects(id, objects, destination);
+                co_await repo.add_post_objects(id, objects, destination);
             });
         }
     }
