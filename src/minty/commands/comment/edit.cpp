@@ -1,7 +1,7 @@
 #include "commands.h"
 #include "../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -12,12 +12,7 @@ namespace {
             const UUID::uuid& comment,
             std::string_view content
         ) -> void {
-            minty::cli::repo([
-                &comment,
-                content
-            ](minty::repo& repo) -> ext::task<> {
-                co_await repo.set_comment_content(comment, content);
-            });
+            minty::cli::repo().set_comment_content(comment, content);
         }
     }
 }

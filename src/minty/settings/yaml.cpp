@@ -12,8 +12,8 @@ namespace YAML {
 
     DECODE(
         settings::server_config,
-        c::required("objects", &settings::server_config::objects),
-        c::required("host", &settings::server_config::host)
+        c::required("host", &settings::server_config::host),
+        c::optional("objects", &settings::server_config::objects)
     );
 
     DECODE(

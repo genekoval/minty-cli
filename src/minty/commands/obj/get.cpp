@@ -1,8 +1,7 @@
 #include "commands.h"
 #include "../../parser/parser.h"
 
-#include <detail/bucket.hpp>
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 #include <fstream>
 
@@ -18,33 +17,19 @@ namespace {
             const UUID::uuid& id,
             std::optional<std::string_view> file
         ) -> void {
-            netcore::run([
-                no_clobber,
-                &id,
-                file
-            ]() -> ext::task<> {
-                const auto config = minty::cli::settings::load();
+            auto client = minty::cli::repo();
 
-                auto client = minty::cli::client(config);
-                auto repo = co_await client.connect();
+            if (!file) {
+                client.get_object_data(id, stdout);
+                return;
+            }
 
-                auto objects = minty::cli::object_store(config);
-                auto bucket =
-                    co_await minty::cli::bucket::connect(*repo, objects);
+            auto path = fs::path(*file);
 
-                if (!file) {
-                    co_await bucket.get(id, std::cout);
-                    co_return;
-                }
+            if (fs::is_directory(path)) path /= id.string();
+            if (no_clobber && fs::exists(path)) return;
 
-                auto path = fs::path(*file);
-
-                if (fs::is_directory(path)) path = path / id.string();
-                if (no_clobber && fs::exists(path)) co_return;
-
-                auto out = std::ofstream(path);
-                co_await bucket.get(id, out);
-            }());
+            client.download_object(id, path);
         }
     }
 }

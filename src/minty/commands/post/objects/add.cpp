@@ -2,7 +2,7 @@
 
 #include "../../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -16,19 +16,20 @@ namespace {
         ) -> void {
             if (objects.empty()) return;
 
-            minty::cli::repo([&](minty::repo& repo) -> ext::task<> {
-                auto uploaded = std::vector<UUID::uuid>();
-                const auto object_previews = co_await repo.add_objects(objects);
-                std::ranges::transform(
-                    object_previews,
-                    std::back_inserter(uploaded),
-                    [](const auto& obj) -> UUID::uuid { return obj.id; }
-                );
+            auto repo = minty::cli::repo();
 
-                if (!uploaded.empty()) {
-                    co_await repo.add_post_objects(id, uploaded, insert);
-                }
-            });
+            const auto previews = repo.add_objects(objects);
+
+            auto uploaded = std::vector<UUID::uuid>();
+
+            std::ranges::transform(
+                previews,
+                std::back_inserter(uploaded),
+                [](const auto& obj) -> UUID::uuid { return obj.id; }
+            );
+
+            if (insert) repo.insert_post_objects(id, uploaded, *insert);
+            else repo.add_post_objects(id, uploaded);
         }
     }
 }

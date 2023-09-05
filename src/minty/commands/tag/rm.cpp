@@ -2,7 +2,7 @@
 
 #include "../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -12,9 +12,7 @@ namespace {
             const app& app,
             const UUID::uuid& id
         ) -> void {
-            minty::cli::repo([&id](minty::repo& repo) -> ext::task<> {
-                co_await repo.delete_tag(id);
-            });
+            minty::cli::repo().delete_tag(id);
         }
     }
 }

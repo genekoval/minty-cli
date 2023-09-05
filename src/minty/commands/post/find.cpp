@@ -4,7 +4,7 @@
 #include "../../output/output.h"
 #include "../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -27,20 +27,18 @@ namespace {
             bool quiet,
             const std::optional<std::string>& text
         ) -> void {
-            minty::cli::repo([&](minty::repo& repo) -> ext::task<> {
-                const auto query = post_query {
-                    .from = from,
-                    .size = size,
-                    .text = text,
-                    .tags = tags,
-                    .visibility = drafts ? visibility::draft : visibility::pub,
-                    .sort = sort
-                };
+            const auto query = post_query {
+                .from = from,
+                .size = size,
+                .text = text,
+                .tags = tags,
+                .visibility = drafts ? visibility::draft : visibility::pub,
+                .sort = sort
+            };
 
-                const auto result = co_await repo.get_posts(query);
+            const auto result = minty::cli::repo().get_posts(query);
 
-                output::result(result, format, quiet);
-            });
+            output::result(result, format, quiet);
         }
     }
 }
@@ -59,10 +57,7 @@ namespace minty::subcommands::post {
                     {"s", "sort-by"},
                     "Result sort",
                     "",
-                    {
-                        .value = post_sort_value::date_created,
-                        .order = sort_order::descending
-                    }
+                    post_sort::created()
                 ),
                 cli::opts::output(),
                 cli::opts::quiet()

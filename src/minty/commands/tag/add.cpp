@@ -1,6 +1,6 @@
 #include "commands.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -10,10 +10,8 @@ namespace {
             const app& app,
             std::string_view name
         ) -> void {
-            minty::cli::repo([name](minty::repo& repo) -> ext::task<> {
-                const auto id = co_await repo.add_tag(name);
-                fmt::print("{}\n", id);
-            });
+            const auto id = minty::cli::repo().add_tag(name);
+            fmt::print("{}\n", id);
         }
     }
 }

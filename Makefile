@@ -14,6 +14,7 @@ $(program).libs := \
  date \
  fmt \
  fstore \
+ http \
  netcore \
  pthread \
  ssl \

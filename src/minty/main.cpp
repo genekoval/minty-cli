@@ -1,7 +1,7 @@
 #include "client.h"
 #include "commands/commands.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 namespace {
     namespace internal {
@@ -13,10 +13,8 @@ namespace {
 
             commline::print_version(std::cout, app);
 
-            minty::cli::repo([](minty::repo& repo) -> ext::task<> {
-                const auto info = co_await repo.get_server_info();
-                fmt::print("server version: {}\n", info.version);
-            });
+            const auto info = minty::cli::repo().get_server_info();
+            fmt::print("server version: {}\n", info.version);
         }
     }
 }

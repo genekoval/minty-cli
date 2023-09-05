@@ -2,7 +2,7 @@
 
 #include "../../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -13,11 +13,11 @@ namespace {
             const UUID::uuid& id,
             const std::vector<UUID::uuid>& tags
         ) -> void {
-            minty::cli::repo([&id, &tags](minty::repo& repo) -> ext::task<> {
-                for (const auto& tag : tags) {
-                    co_await repo.add_post_tag(id, tag);
-                }
-            });
+            auto repo = minty::cli::repo();
+
+            for (const auto& tag : tags) {
+                repo.add_post_tag(id, tag);
+            }
         }
     }
 }

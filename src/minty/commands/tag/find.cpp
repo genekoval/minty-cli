@@ -4,7 +4,7 @@
 #include "../../output/output.h"
 #include "../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -20,23 +20,15 @@ namespace {
             bool quiet,
             const std::string& name
         ) -> void {
-            minty::cli::repo([
-                from,
-                size,
-                format,
-                quiet,
-                &name
-            ](minty::repo& repo) -> ext::task<> {
-                const auto query = minty::tag_query {
-                    .from = from,
-                    .size = size,
-                    .name = name
-                };
+            const auto query = minty::tag_query {
+                .from = from,
+                .size = size,
+                .name = name
+            };
 
-                const auto result = co_await repo.get_tags(query);
+            const auto result = minty::cli::repo().get_tags(query);
 
-                output::result(result, format, quiet);
-            });
+            output::result(result, format, quiet);
         }
     }
 }

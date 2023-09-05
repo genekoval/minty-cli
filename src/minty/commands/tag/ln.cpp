@@ -4,7 +4,7 @@
 #include "../../output/output.h"
 #include "../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -17,32 +17,27 @@ namespace {
             const UUID::uuid& id,
             std::string_view url
         ) -> void {
-            minty::cli::repo([
-                json,
-                quiet,
-                &id,
-                url
-            ](minty::repo& repo) -> ext::task<> {
-                auto tag = co_await repo.get_tag(id);
+            auto repo = minty::cli::repo();
 
-                const auto end = tag.sources.end();
-                const auto result = std::ranges::find_if(
-                    tag.sources.begin(),
-                    end,
-                    [url](const auto& source) { return source.url == url; }
-                );
+            auto tag = repo.get_tag(id);
 
-                if (result != end) {
-                    co_await repo.delete_tag_source(id, result->id);
-                    tag.sources.erase(result);
-                }
-                else {
-                    const auto source = co_await repo.add_tag_source(id, url);
-                    tag.sources.push_back(source);
-                }
+            const auto end = tag.sources.end();
+            const auto result = std::ranges::find_if(
+                tag.sources.begin(),
+                end,
+                [url](const auto& source) { return source.url == url; }
+            );
 
-                minty::cli::output::entity(tag, json, !quiet);
-            });
+            if (result != end) {
+                repo.delete_tag_source(id, result->id);
+                tag.sources.erase(result);
+            }
+            else {
+                const auto source = repo.add_tag_source(id, url);
+                tag.sources.push_back(source);
+            }
+
+            minty::cli::output::entity(tag, json, !quiet);
         }
     }
 }

@@ -4,7 +4,7 @@
 #include "../../output/output.h"
 #include "../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -16,23 +16,19 @@ namespace {
             const UUID::uuid& id,
             std::string_view name
         ) -> void {
-            minty::cli::repo([quiet, &id, name](
-                minty::repo& repo
-            ) -> ext::task<> {
-                const auto names = co_await repo.set_tag_name(id, name);
+            const auto names = minty::cli::repo().set_tag_name(id, name);
 
-                if (quiet) co_return;
+            if (quiet) return;
 
-                fmt::print("{}\n", names.name);
+            fmt::print("{}\n", names.name);
 
-                if (!names.aliases.empty()) {
-                    fmt::print("\n");
+            if (!names.aliases.empty()) {
+                fmt::print("\n");
 
-                    for (const auto& alias : names.aliases) {
-                        fmt::print("{}\n", alias);
-                    }
+                for (const auto& alias : names.aliases) {
+                    fmt::print("{}\n", alias);
                 }
-            });
+            }
         }
     }
 }

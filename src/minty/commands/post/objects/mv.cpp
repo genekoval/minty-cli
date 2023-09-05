@@ -2,7 +2,7 @@
 
 #include "../../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -16,13 +16,14 @@ namespace {
         ) -> void {
             if (objects.empty()) return;
 
-            minty::cli::repo([
-                &destination,
-                &id,
-                &objects
-            ](minty::repo& repo) -> ext::task<> {
-                co_await repo.add_post_objects(id, objects, destination);
-            });
+            auto repo = minty::cli::repo();
+
+            if (destination) {
+                repo.insert_post_objects(id, objects, *destination);
+            }
+            else {
+                repo.add_post_objects(id, objects);
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using namespace std::literals;
 
 using minty::sort_order;
 using sort_value = minty::post_sort_value;
+using minty::to_string;
 
 namespace {
     constexpr auto ascending = "ascending"sv;
@@ -12,34 +13,20 @@ namespace {
     constexpr auto delimiter = ".";
 
     constexpr auto value_types = std::array {
-        "created",
-        "modified",
-        "relevance",
-        "title"
+        to_string(sort_value::date_created),
+        to_string(sort_value::date_modified),
+        to_string(sort_value::relevance),
+        to_string(sort_value::title),
     };
 
-    auto default_order(sort_value value) -> sort_order {
-        if (
-            value == sort_value::date_created ||
-            value == sort_value::date_modified
-        ) return sort_order::descending;
-
-        return sort_order::ascending;
-    }
-
     auto get_order(std::string_view argument) -> sort_order {
-        if (ascending.starts_with(argument)) {
-            return sort_order::ascending;
-        }
+        if (ascending.starts_with(argument)) return sort_order::ascending;
+        if (descending.starts_with(argument)) return sort_order::descending;
 
-        if (descending.starts_with(argument)) {
-            return sort_order::descending;
-        }
-
-        throw commline::cli_error(
-            "unknown sort order: " +
-            std::string(argument)
-        );
+        throw commline::cli_error(fmt::format(
+            "Unknown sort order: {}",
+            argument
+        ));
     }
 
     auto get_value(
@@ -52,10 +39,10 @@ namespace {
         );
 
         if (it == value_types.end()) {
-            throw commline::cli_error(
-                "unknown sort type: " +
-                std::string(argument)
-            );
+            throw commline::cli_error(fmt::format(
+                "Unknown sort type: {}",
+                argument
+            ));
         }
 
         const auto result = std::distance(value_types.begin(), it);
@@ -70,12 +57,11 @@ namespace commline {
         const auto delim = argument.find(delimiter);
 
         const auto value = get_value(argument.substr(0, delim));
-        const auto order = delim == std::string_view::npos ?
-            default_order(value) : get_order(argument.substr(delim + 1));
 
-        return {
-            .value = value,
-            .order = order
-        };
+        const auto order = delim == std::string_view::npos ?
+            minty::default_sort_order(value) :
+            get_order(argument.substr(delim + 1));
+
+        return {value, order};
     }
 }

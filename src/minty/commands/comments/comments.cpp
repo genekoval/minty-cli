@@ -3,7 +3,7 @@
 #include "../../output/output.h"
 #include "../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -15,14 +15,8 @@ namespace {
             bool quiet,
             const UUID::uuid& post
         ) -> void {
-            minty::cli::repo([
-                json,
-                quiet,
-                &post
-            ](minty::repo& repo) -> ext::task<> {
-                const auto comment_list = co_await repo.get_comments(post);
-                minty::cli::output::entity(comment_list, json, !quiet);
-            });
+            const auto comment_list = minty::cli::repo().get_comments(post);
+            minty::cli::output::entity(comment_list, json, !quiet);
         }
     }
 }

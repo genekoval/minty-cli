@@ -3,7 +3,7 @@
 #include "../../options/opts.h"
 #include "../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -16,39 +16,39 @@ namespace {
             const std::vector<UUID::uuid>& tags,
             const std::vector<std::string_view>& objects
         ) -> void {
-            minty::cli::repo([&](minty::repo& repo) -> ext::task<> {
-                const auto id = co_await repo.create_post_draft();
+            auto repo = minty::cli::repo();
 
-                if (!title.empty()) {
-                    co_await repo.set_post_title(id, title);
-                }
+            const auto id = repo.create_post_draft();
 
-                if (!description.empty()) {
-                    co_await repo.set_post_description(id, description);
-                }
+            if (!title.empty()) {
+                repo.set_post_title(id, title);
+            }
 
-                for (const auto& tag : tags) {
-                    co_await repo.add_post_tag(id, tag);
-                }
+            if (!description.empty()) {
+                repo.set_post_description(id, description);
+            }
 
-                if (!objects.empty()) {
-                    const auto previews = co_await repo.add_objects(objects);
+            for (const auto& tag : tags) {
+                repo.add_post_tag(id, tag);
+            }
 
-                    auto objs = std::vector<UUID::uuid>();
-                    objs.reserve(previews.size());
+            if (!objects.empty()) {
+                const auto previews = repo.add_objects(objects);
 
-                    std::ranges::transform(
-                        previews,
-                        std::back_inserter(objs),
-                        [](const auto& obj) -> UUID::uuid { return obj.id; }
-                    );
+                auto objs = std::vector<UUID::uuid>();
+                objs.reserve(previews.size());
 
-                    co_await repo.add_post_objects(id, objs, std::nullopt);
-                }
+                std::ranges::transform(
+                    previews,
+                    std::back_inserter(objs),
+                    [](const auto& obj) -> UUID::uuid { return obj.id; }
+                );
 
-                co_await repo.create_post(id);
-                fmt::print("{}\n", id);
-            });
+                repo.add_post_objects(id, objs);
+            }
+
+            repo.create_post(id);
+            fmt::print("{}\n", id);
         }
     }
 }

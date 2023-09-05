@@ -1,18 +1,21 @@
 #include "client.h"
 #include "output.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 #include <ext/string.h>
 #include <iostream>
 
 namespace minty::cli {
-    auto client() -> minty::client {
-        return client(settings::load());
+    auto repo() -> minty::sync::http::repo {
+        return repo(settings::load());
     }
 
-    auto client(const settings& config) -> minty::client {
-        return minty::client(config.server.host);
+    auto repo(const settings& config) -> minty::sync::http::repo {
+        const auto& server = config.server;
+
+        if (config.server.objects) return {server.host, *server.objects};
+        return {server.host};
     }
 
     auto print_yaml(

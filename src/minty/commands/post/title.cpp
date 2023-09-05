@@ -2,7 +2,7 @@
 
 #include "../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -13,12 +13,18 @@ namespace {
             const UUID::uuid& id,
             std::optional<std::string_view> title
         ) -> void {
-            minty::cli::repo([&id, title](minty::repo& repo) -> ext::task<> {
-                if (title) co_await repo.set_post_title(id, *title);
+            auto repo = minty::cli::repo();
 
-                const auto post = co_await repo.get_post(id);
-                if (post.title) fmt::print("{}\n", *post.title);
-            });
+            if (title) {
+                const auto [modified, new_title] =
+                    repo.set_post_title(id, *title);
+
+                if (new_title) fmt::print("{}\n", *new_title);
+                return;
+            }
+
+            const auto post = repo.get_post(id);
+            if (post.title) fmt::print("{}\n", *post.title);
         }
     }
 }

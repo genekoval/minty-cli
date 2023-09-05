@@ -1,16 +1,14 @@
 #include "commands.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
 namespace {
     namespace internal {
         auto draft(const app& app) -> void {
-            minty::cli::repo([&](minty::repo& repo) -> ext::task<> {
-                const auto id = co_await repo.create_post_draft();
-                fmt::print("{}\n", id);
-            });
+            const auto id = minty::cli::repo().create_post_draft();
+            fmt::print("{}\n", id);
         }
     }
 }

@@ -5,7 +5,7 @@
 #include "../../../output.h"
 #include "../../../parser/parser.h"
 
-#include <detail/client.hpp>
+#include <detail/repo.hpp>
 
 using namespace commline;
 
@@ -15,11 +15,8 @@ namespace {
             const app& app,
             const UUID::uuid& id
         ) -> void {
-            minty::cli::repo([&id](minty::repo& repo) -> ext::task<> {
-                const auto post = co_await repo.get_post(id);
-
-                minty::cli::print(post.posts);
-            });
+            const auto post = minty::cli::repo().get_post(id);
+            minty::cli::print(post.posts);
         }
     }
 }

@@ -10,8 +10,8 @@ namespace minty::cli {
         };
 
         struct server_config {
-            std::string objects;
             std::string host;
+            std::optional<std::string> objects;
         };
 
         log_config log;
