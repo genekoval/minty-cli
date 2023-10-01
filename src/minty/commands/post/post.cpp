@@ -17,7 +17,7 @@ namespace {
             bool quiet,
             const UUID::uuid& id
         ) -> void {
-            const auto post = minty::cli::repo().get_post(id);
+            const auto post = minty::cli::get_post(id);
             minty::cli::output::entity(post, json, !quiet);
         }
     }

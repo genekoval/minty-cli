@@ -23,7 +23,7 @@ namespace {
                 return;
             }
 
-            const auto post = repo.get_post(id);
+            const auto post = minty::cli::get_post(repo, id);
             if (post.title) fmt::print("{}\n", *post.title);
         }
     }

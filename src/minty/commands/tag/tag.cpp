@@ -16,7 +16,7 @@ namespace {
             bool quiet,
             const UUID::uuid& id
         ) -> void {
-            const auto tag = minty::cli::repo().get_tag(id);
+            const auto tag = minty::cli::get_tag(id);
             minty::cli::output::entity(tag, json, !quiet);
         }
     }

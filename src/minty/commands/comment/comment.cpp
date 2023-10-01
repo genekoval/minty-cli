@@ -15,7 +15,7 @@ namespace {
             bool quiet,
             const UUID::uuid& id
         ) -> void {
-            const auto comment = minty::cli::repo().get_comment(id);
+            const auto comment = minty::cli::get_comment(id);
             minty::cli::output::entity(comment, json, !quiet);
         }
     }
