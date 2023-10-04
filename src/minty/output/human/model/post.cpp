@@ -35,6 +35,7 @@ namespace minty::cli::output {
         auto meta = metadata(
             make_row("ID", post.id),
             make_row("Visibility", visibility),
+            make_row("Comments", post.comment_count),
             make_row("Created", post.date_created),
             make_row("Modified", modified)
         );
