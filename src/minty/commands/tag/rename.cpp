@@ -38,9 +38,7 @@ namespace minty::subcommands::tag {
         return command(
             __FUNCTION__,
             "Set a tag's primary name",
-            options(
-                cli::opts::quiet()
-            ),
+            options(cli::opts::quiet()),
             arguments(
                 required<UUID::uuid>("id"),
                 required<std::string_view>("name")

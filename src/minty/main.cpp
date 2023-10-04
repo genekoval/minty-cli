@@ -31,12 +31,7 @@ auto main(int argc, char** argv) -> int {
         NAME,
         VERSION,
         DESCRIPTION,
-        options(
-            flag(
-                {"v", "version"},
-                "Print version information"
-            )
-        ),
+        options(flag({"v", "version"}, "Print version information")),
         arguments(),
         internal::main
     );

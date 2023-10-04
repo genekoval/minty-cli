@@ -5,82 +5,53 @@
 #include <fmt/format.h>
 
 namespace YAML {
-    auto operator<<(
-        Emitter& out,
-        const minty::comment& comment
-    ) -> Emitter& {
-        out
-            << BeginMap
-            << Key << "id" << Value << comment.id
-            << Key << "post" << Value << comment.post_id;
+    auto operator<<(Emitter& out, const minty::comment& comment) -> Emitter& {
+        out << BeginMap << Key << "id" << Value << comment.id << Key << "post"
+            << Value << comment.post_id;
 
         if (comment.parent_id) {
-            out <<
-                Key << "parent" <<
-                Value << *comment.parent_id;
+            out << Key << "parent" << Value << *comment.parent_id;
         }
 
-        out
-            << Key << "created" << Value << comment.date_created
-            << Key << "content" << Value << comment.content
-            << EndMap;
+        out << Key << "created" << Value << comment.date_created << Key
+            << "content" << Value << comment.content << EndMap;
 
         return out;
     }
 
-    auto operator<<(
-        Emitter& out,
-        const minty::comment_data& comment
-    ) -> Emitter& {
-        out
-            << BeginMap
-            << Key << "id" << Value << comment.id
-            << Key << "content" << Value << comment.content
-            << Key << "date posted" << Value << comment.date_created
-            << EndMap;
+    auto operator<<(Emitter& out, const minty::comment_data& comment)
+        -> Emitter& {
+        out << BeginMap << Key << "id" << Value << comment.id << Key
+            << "content" << Value << comment.content << Key << "date posted"
+            << Value << comment.date_created << EndMap;
 
         return out;
     }
 
-    auto operator<<(
-        Emitter& out,
-        const minty::data_size& data_size
-    ) -> Emitter& {
-        out
-            << BeginMap
-            << Key << "formatted" << Value << data_size.formatted
-            << Key << "bytes" << Value << data_size.bytes
-            << EndMap;
+    auto operator<<(Emitter& out, const minty::data_size& data_size)
+        -> Emitter& {
+        out << BeginMap << Key << "formatted" << Value << data_size.formatted
+            << Key << "bytes" << Value << data_size.bytes << EndMap;
 
         return out;
     }
 
-    auto operator<<(
-        Emitter& out,
-        const minty::tag& tag
-    ) -> Emitter& {
+    auto operator<<(Emitter& out, const minty::tag& tag) -> Emitter& {
         out << BeginMap;
 
-        out
-            << Key << "id"
-            << Value << tag.id
+        out << Key << "id" << Value << tag.id
 
-            << Key << "name"
-            << Value << tag.name;
+            << Key << "name" << Value << tag.name;
 
         if (!tag.aliases.empty()) {
-            out
-                << Key << "aliases"
-                << Value << tag.aliases;
+            out << Key << "aliases" << Value << tag.aliases;
         }
 
         if (tag.description.has_value()) {
             const auto& description = tag.description.value();
             out << Key << "description" << Value;
 
-            if (description.find("\n") != std::string::npos) {
-                out << Literal;
-            }
+            if (description.find("\n") != std::string::npos) { out << Literal; }
 
             out << description;
         }
@@ -88,45 +59,30 @@ namespace YAML {
         if (!tag.sources.empty()) {
             out << Key << "links" << Value << BeginSeq;
 
-            for (const auto& source : tag.sources) {
-                out << source.url;
-            }
+            for (const auto& source : tag.sources) { out << source.url; }
 
             out << EndSeq;
         }
 
-        out
-            << Key << "created"
-            << Value << tag.date_created;
+        out << Key << "created" << Value << tag.date_created;
 
         out << EndMap;
         return out;
     }
 
-    auto operator<<(
-        Emitter& out,
-        const minty::tag_preview& tag
-    ) -> Emitter& {
-        out
-            << BeginMap
-            << Key << "id" << Value << tag.id
-            << Key << "name" << Value << tag.name
-            << EndMap;
+    auto operator<<(Emitter& out, const minty::tag_preview& tag) -> Emitter& {
+        out << BeginMap << Key << "id" << Value << tag.id << Key << "name"
+            << Value << tag.name << EndMap;
 
         return out;
     }
 
-    auto operator<<(
-        Emitter& out,
-        const minty::object& object
-    ) -> Emitter& {
-        out << BeginMap
-            << Key << "id" << Value << object.id
-            << Key << "hash" << Value << object.hash
-            << Key << "size" << Value << object.size
-            << Key << "type" << Value << object.type
-            << Key << "subtype" << Value << object.subtype
-            << Key << "added" << Value << object.date_added;
+    auto operator<<(Emitter& out, const minty::object& object) -> Emitter& {
+        out << BeginMap << Key << "id" << Value << object.id << Key << "hash"
+            << Value << object.hash << Key << "size" << Value << object.size
+            << Key << "type" << Value << object.type << Key << "subtype"
+            << Value << object.subtype << Key << "added" << Value
+            << object.date_added;
 
         if (object.preview_id) {
             out << Key << "preview" << Value << *object.preview_id;
@@ -140,30 +96,22 @@ namespace YAML {
             out << Key << "posts" << Value << BeginSeq;
             for (const auto& post : object.posts) out << post;
             out << EndSeq;
-
         }
 
         out << EndMap;
         return out;
     }
 
-    auto operator<<(
-        Emitter& out,
-        const minty::object_preview& object
-    ) -> Emitter& {
-        out << BeginMap
-            << Key << "id" << Value << object.id
-            << Key << "type" << Value << object.type
-            << Key << "subtype" << Value << object.subtype
-            << EndMap;
+    auto operator<<(Emitter& out, const minty::object_preview& object)
+        -> Emitter& {
+        out << BeginMap << Key << "id" << Value << object.id << Key << "type"
+            << Value << object.type << Key << "subtype" << Value
+            << object.subtype << EndMap;
 
         return out;
     }
 
-    auto operator<<(
-        Emitter& out,
-        const minty::post& post
-    ) -> Emitter& {
+    auto operator<<(Emitter& out, const minty::post& post) -> Emitter& {
         out << BeginMap;
 
         out << Key << "id" << Value << post.id;
@@ -194,10 +142,7 @@ namespace YAML {
         return out;
     }
 
-    auto operator<<(
-        Emitter& out,
-        const minty::post_preview& post
-    ) -> Emitter& {
+    auto operator<<(Emitter& out, const minty::post_preview& post) -> Emitter& {
         out << BeginMap;
 
         out << Key << "id" << Value << post.id;
@@ -211,10 +156,8 @@ namespace YAML {
         return out;
     }
 
-    auto operator<<(
-        Emitter& out,
-        const minty::time_point& time_point
-    ) -> Emitter& {
+    auto operator<<(Emitter& out, const minty::time_point& time_point)
+        -> Emitter& {
         const auto* zone = date::current_zone();
         const auto zoned = date::make_zoned(zone, time_point);
 
@@ -224,10 +167,7 @@ namespace YAML {
         return out << stream.str();
     }
 
-    auto operator<<(
-        Emitter& out,
-        const UUID::uuid& uuid
-    ) -> Emitter& {
+    auto operator<<(Emitter& out, const UUID::uuid& uuid) -> Emitter& {
         return out << uuid.string().data();
     }
 }

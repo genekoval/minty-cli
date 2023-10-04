@@ -8,10 +8,7 @@ using namespace commline;
 
 namespace {
     namespace internal {
-        auto rm(
-            const app& app,
-            const UUID::uuid& id
-        ) -> void {
+        auto rm(const app& app, const UUID::uuid& id) -> void {
             minty::cli::repo().delete_tag(id);
         }
     }
@@ -23,9 +20,7 @@ namespace minty::subcommands::tag {
             __FUNCTION__,
             "Remove a tag",
             options(),
-            arguments(
-                required<UUID::uuid>("id")
-            ),
+            arguments(required<UUID::uuid>("id")),
             internal::rm
         );
     }

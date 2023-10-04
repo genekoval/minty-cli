@@ -1,7 +1,7 @@
-#include "../commands.h"
 #include "../../options/opts.h"
 #include "../../output/output.h"
 #include "../../parser/parser.h"
+#include "../commands.h"
 
 #include <detail/repo.hpp>
 
@@ -26,13 +26,8 @@ namespace minty::commands {
         return command(
             __FUNCTION__,
             "Get a post's comments",
-            options(
-                cli::opts::json(),
-                cli::opts::quiet()
-            ),
-            arguments(
-                required<UUID::uuid>("post")
-            ),
+            options(cli::opts::json(), cli::opts::quiet()),
+            arguments(required<UUID::uuid>("post")),
             internal::comments
         );
     }

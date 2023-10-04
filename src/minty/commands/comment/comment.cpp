@@ -1,7 +1,7 @@
-#include "commands.h"
-#include "../commands.h"
 #include "../../options/opts.h"
 #include "../../parser/parser.h"
+#include "../commands.h"
+#include "commands.h"
 
 #include <detail/repo.hpp>
 
@@ -26,13 +26,8 @@ namespace minty::commands {
         auto cmd = command(
             __FUNCTION__,
             "Read a comment",
-            options(
-                cli::opts::json(),
-                cli::opts::quiet()
-            ),
-            arguments(
-                required<UUID::uuid>("id")
-            ),
+            options(cli::opts::json(), cli::opts::quiet()),
+            arguments(required<UUID::uuid>("id")),
             internal::comment
         );
 

@@ -15,9 +15,7 @@ namespace {
         ) -> void {
             auto repo = minty::cli::repo();
 
-            for (const auto& tag : tags) {
-                repo.add_post_tag(id, tag);
-            }
+            for (const auto& tag : tags) { repo.add_post_tag(id, tag); }
         }
     }
 }
@@ -28,10 +26,7 @@ namespace minty::subcommands::post_tags {
             __FUNCTION__,
             "Add tags to a post",
             options(),
-            arguments(
-                required<UUID::uuid>("id"),
-                variadic<UUID::uuid>("tags")
-            ),
+            arguments(required<UUID::uuid>("id"), variadic<UUID::uuid>("tags")),
             internal::add
         );
     }

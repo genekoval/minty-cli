@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../date.h"
-#include "indent.h"
 #include "../style.h"
+#include "indent.h"
 
 #include <minty/minty>
 
@@ -12,9 +12,7 @@ namespace minty::cli::output {
         const std::string_view label;
         const T& value;
 
-        auto label_size() const -> std::size_t {
-            return label.size();
-        }
+        auto label_size() const -> std::size_t { return label.size(); }
     };
 
     template <typename T>
@@ -41,10 +39,9 @@ namespace minty::cli::output {
         using row_container = std::tuple<Rows...>;
 
         template <std::size_t... I>
-        static auto compute_alignment(
-            const row_container& rows,
-            std::index_sequence<I...>
-        ) -> int {
+        static auto
+        compute_alignment(const row_container& rows, std::index_sequence<I...>)
+            -> int {
             auto result = static_cast<std::size_t>(0);
 
             ((result = std::max(result, std::get<I>(rows).label_size())), ...);
@@ -58,13 +55,7 @@ namespace minty::cli::output {
         auto print_label(std::FILE* f, std::string_view label) -> void {
             print_indent(f, indent);
 
-            fmt::print(
-                f,
-                style::label,
-                "{:{}}",
-                label,
-                alignment
-            );
+            fmt::print(f, style::label, "{:{}}", label, alignment);
 
             fmt::print(f, "{}", style::interpunct);
         }
@@ -75,11 +66,8 @@ namespace minty::cli::output {
         }
 
         template <typename T>
-        auto print_row(
-            std::FILE* f,
-            std::string_view label,
-            const T& value
-        ) -> void {
+        auto print_row(std::FILE* f, std::string_view label, const T& value)
+            -> void {
             print_label(f, label);
             print_value(f, value);
         }
@@ -117,10 +105,8 @@ namespace minty::cli::output {
         ) -> void {
             const auto duration = format_duration(value);
             const auto formatted = format_date(value);
-            const auto date = std::vector<std::string_view> {
-                duration,
-                formatted
-            };
+            const auto date =
+                std::vector<std::string_view> {duration, formatted};
 
             print_row(f, label, date);
         }
@@ -148,12 +134,11 @@ namespace minty::cli::output {
             rows(std::forward<Rows>(rows)...),
             alignment(compute_alignment(
                 this->rows,
-                std::index_sequence_for<Rows...>{}
-            ))
-        {}
+                std::index_sequence_for<Rows...> {}
+            )) {}
 
         auto print(std::FILE* f) -> void {
-            print(f, std::index_sequence_for<Rows...>{});
+            print(f, std::index_sequence_for<Rows...> {});
         }
     };
 }

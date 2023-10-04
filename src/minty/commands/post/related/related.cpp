@@ -1,9 +1,9 @@
 #include "commands.h"
 
-#include "../commands.h"
 #include "../../../client.h"
 #include "../../../output.h"
 #include "../../../parser/parser.h"
+#include "../commands.h"
 
 #include <detail/repo.hpp>
 
@@ -11,10 +11,7 @@ using namespace commline;
 
 namespace {
     namespace internal {
-        auto related(
-            const app& app,
-            const UUID::uuid& id
-        ) -> void {
+        auto related(const app& app, const UUID::uuid& id) -> void {
             const auto post = minty::cli::get_post(id);
             minty::cli::print(post.posts);
         }
@@ -27,9 +24,7 @@ namespace minty::subcommands::post {
             __FUNCTION__,
             "Get a post's related posts",
             options(),
-            arguments(
-                required<UUID::uuid>("id")
-            ),
+            arguments(required<UUID::uuid>("id")),
             internal::related
         );
 

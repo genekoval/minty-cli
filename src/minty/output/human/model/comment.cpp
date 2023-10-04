@@ -86,7 +86,10 @@ namespace {
 
         auto timestamp(time_point value) -> void {
             indent_with_separator();
-            fmt::print(f, metadata_style, "{}{}{}\n",
+            fmt::print(
+                f,
+                metadata_style,
+                "{}{}{}\n",
                 format_duration(value),
                 style::interpunct,
                 format_date(value)

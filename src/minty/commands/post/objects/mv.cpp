@@ -21,9 +21,7 @@ namespace {
             if (destination) {
                 repo.insert_post_objects(id, objects, *destination);
             }
-            else {
-                repo.add_post_objects(id, objects);
-            }
+            else { repo.add_post_objects(id, objects); }
         }
     }
 }
@@ -33,13 +31,11 @@ namespace minty::subcommands::post_objects {
         return command(
             __FUNCTION__,
             "Reorder objects within a post.",
-            options(
-                option<std::optional<UUID::uuid>>(
-                    {"d", "destination"},
-                    "Move OBJECTS in front of this object",
-                    "object"
-                )
-            ),
+            options(option<std::optional<UUID::uuid>>(
+                {"d", "destination"},
+                "Move OBJECTS in front of this object",
+                "object"
+            )),
             arguments(
                 required<UUID::uuid>("id"),
                 variadic<UUID::uuid>("objects")

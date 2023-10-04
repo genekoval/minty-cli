@@ -15,9 +15,7 @@ namespace {
         ) -> void {
             auto repo = minty::cli::repo();
 
-            for (const auto& post : posts) {
-                repo.add_related_post(id, post);
-            }
+            for (const auto& post : posts) { repo.add_related_post(id, post); }
         }
     }
 }

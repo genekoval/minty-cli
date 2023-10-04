@@ -4,27 +4,15 @@ using namespace commline;
 
 namespace minty::cli::opts {
     auto description() -> option<std::string> {
-        return {
-            {"d", "description"},
-            "Set the description",
-            "text"
-        };
+        return {{"d", "description"}, "Set the description", "text"};
     }
 
     auto from() -> option<unsigned int> {
-        return {
-            {"f", "from"},
-            "Result offset",
-            "number",
-            0
-        };
+        return {{"f", "from"}, "Result offset", "number", 0};
     }
 
     auto json() -> commline::flag {
-        return {
-            {"j", "json"},
-            "Print result as JSON to STDOUT"
-        };
+        return {{"j", "json"}, "Print result as JSON to STDOUT"};
     }
 
     auto output() -> option<std::optional<minty::cli::output::format>> {
@@ -34,48 +22,26 @@ namespace minty::cli::opts {
                 "Format of data printed to STDOUT ({})",
                 fmt::join(minty::cli::output::format_string, " | ")
             ),
-            "format"
-        };
+            "format"};
     }
 
     auto path() -> option<std::optional<std::string_view>> {
-        return {
-            {"S", "select"},
-            "Select YAML output",
-            "path"
-        };
+        return {{"S", "select"}, "Select YAML output", "path"};
     }
 
     auto quiet() -> flag {
-        return {
-            {"q", "quiet"},
-            "Suppress human-readable output"
-        };
+        return {{"q", "quiet"}, "Suppress human-readable output"};
     }
 
     auto size() -> option<unsigned int> {
-        return {
-            {"n", "size"},
-            "Result size",
-            "number",
-            10
-        };
+        return {{"n", "size"}, "Result size", "number", 10};
     }
 
     auto tags() -> list<UUID::uuid> {
-        return {
-            {"t", "tag"},
-            "Post tags",
-            "id",
-            ","
-        };
+        return {{"t", "tag"}, "Post tags", "id", ","};
     }
 
     auto title() -> commline::option<std::string> {
-        return {
-            {"T", "title"},
-            "Set the title",
-            "text"
-        };
+        return {{"T", "title"}, "Set the title", "text"};
     }
 }

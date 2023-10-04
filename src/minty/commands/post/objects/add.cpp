@@ -39,13 +39,11 @@ namespace minty::subcommands::post_objects {
         return command(
             __FUNCTION__,
             "Add objects to a post",
-            options(
-                option<std::optional<UUID::uuid>>(
-                    {"i", "insert"},
-                    "Object to insert in front of",
-                    "ID"
-                )
-            ),
+            options(option<std::optional<UUID::uuid>>(
+                {"i", "insert"},
+                "Object to insert in front of",
+                "ID"
+            )),
             arguments(
                 required<UUID::uuid>("id"),
                 variadic<std::string_view>("objects")

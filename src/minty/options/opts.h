@@ -18,8 +18,8 @@ namespace minty::cli::opts {
      */
     auto json() -> commline::flag;
 
-    auto output() ->
-        commline::option<std::optional<minty::cli::output::format>>;
+    auto output()
+        -> commline::option<std::optional<minty::cli::output::format>>;
 
     auto path() -> commline::option<std::optional<std::string_view>>;
 

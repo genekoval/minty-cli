@@ -23,26 +23,19 @@ namespace {
         if (ascending.starts_with(argument)) return sort_order::ascending;
         if (descending.starts_with(argument)) return sort_order::descending;
 
-        throw commline::cli_error(fmt::format(
-            "Unknown sort order: {}",
-            argument
-        ));
+        throw commline::cli_error(
+            fmt::format("Unknown sort order: {}", argument)
+        );
     }
 
-    auto get_value(
-        std::string_view argument
-    ) -> sort_value {
-        const auto it = std::find(
-            value_types.begin(),
-            value_types.end(),
-            argument
-        );
+    auto get_value(std::string_view argument) -> sort_value {
+        const auto it =
+            std::find(value_types.begin(), value_types.end(), argument);
 
         if (it == value_types.end()) {
-            throw commline::cli_error(fmt::format(
-                "Unknown sort type: {}",
-                argument
-            ));
+            throw commline::cli_error(
+                fmt::format("Unknown sort type: {}", argument)
+            );
         }
 
         const auto result = std::distance(value_types.begin(), it);
@@ -51,16 +44,15 @@ namespace {
 }
 
 namespace commline {
-    auto parser<minty::post_sort>::parse(
-        std::string_view argument
-    ) -> minty::post_sort {
+    auto parser<minty::post_sort>::parse(std::string_view argument)
+        -> minty::post_sort {
         const auto delim = argument.find(delimiter);
 
         const auto value = get_value(argument.substr(0, delim));
 
-        const auto order = delim == std::string_view::npos ?
-            minty::default_sort_order(value) :
-            get_order(argument.substr(delim + 1));
+        const auto order = delim == std::string_view::npos
+                               ? minty::default_sort_order(value)
+                               : get_order(argument.substr(delim + 1));
 
         return {value, order};
     }

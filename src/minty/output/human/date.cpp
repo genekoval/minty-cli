@@ -7,15 +7,8 @@
 using std::chrono::duration_cast;
 
 namespace {
-    constexpr auto unit_string = std::array {
-        "year",
-        "month",
-        "week",
-        "day",
-        "hour",
-        "minute",
-        "second"
-    };
+    constexpr auto unit_string =
+        std::array {"year", "month", "week", "day", "hour", "minute", "second"};
 
     auto write_unit_string(std::ostream& os, int64_t count, int index) -> void {
         os << count << " " << unit_string[index];
@@ -43,18 +36,15 @@ namespace minty::cli::output {
             duration_cast<std::chrono::weeks>(d - years - months);
         const auto days =
             duration_cast<std::chrono::days>(d - years - months - weeks);
-        const auto hours =
-            duration_cast<std::chrono::hours>(
-                d - years - months - weeks - days
-            );
-        const auto minutes =
-            duration_cast<std::chrono::minutes>(
-                d - years - months - weeks - days - hours
-            );
-        const auto seconds =
-            duration_cast<std::chrono::seconds>(
-                d - years - months - weeks - days - hours - minutes
-            );
+        const auto hours = duration_cast<std::chrono::hours>(
+            d - years - months - weeks - days
+        );
+        const auto minutes = duration_cast<std::chrono::minutes>(
+            d - years - months - weeks - days - hours
+        );
+        const auto seconds = duration_cast<std::chrono::seconds>(
+            d - years - months - weeks - days - hours - minutes
+        );
 
         const auto durations = std::array {
             years.count(),
@@ -63,21 +53,15 @@ namespace minty::cli::output {
             days.count(),
             hours.count(),
             minutes.count(),
-            seconds.count()
-        };
+            seconds.count()};
 
         const auto begin = durations.begin();
         const auto end = durations.end();
 
-        const auto result = std::find_if(
-            begin,
-            end,
-            [](auto i) { return i > 0; }
-        );
+        const auto result =
+            std::find_if(begin, end, [](auto i) { return i > 0; });
 
-        if (result == end) {
-            return "just now";
-        }
+        if (result == end) { return "just now"; }
 
         const auto index = std::distance(begin, result);
 

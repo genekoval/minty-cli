@@ -38,9 +38,7 @@ namespace minty::env {
         return value.value_or(home() / ".config" / "minty");
     }
 
-    auto home() -> fs::path {
-        return require("HOME");
-    }
+    auto home() -> fs::path { return require("HOME"); }
 
     auto width() -> unsigned long {
         constexpr auto name = "MINTY_WIDTH";

@@ -5,11 +5,8 @@ using minty::cli::output::format_string;
 
 namespace commline {
     auto parser<format>::parse(std::string_view argument) -> format {
-        const auto it = std::find(
-            format_string.begin(),
-            format_string.end(),
-            argument
-        );
+        const auto it =
+            std::find(format_string.begin(), format_string.end(), argument);
 
         if (it == format_string.end()) {
             throw commline::cli_error("unknown format type: {}", argument);

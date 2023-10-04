@@ -11,9 +11,7 @@ namespace minty::cli::output {
 
         const auto type = fmt::format("{}/{}", object.type, object.subtype);
 
-        auto meta = metadata(
-            make_row("Type", type)
-        );
+        auto meta = metadata(make_row("Type", type));
 
         meta.indent = indent;
         meta.print(f);

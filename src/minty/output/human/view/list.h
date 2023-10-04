@@ -1,8 +1,8 @@
 #pragma once
 
-#include "indent.h"
-#include "../style.h"
 #include "../model.h"
+#include "../style.h"
+#include "indent.h"
 
 #include <ext/math.h>
 

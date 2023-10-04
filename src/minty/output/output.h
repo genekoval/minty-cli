@@ -8,15 +8,9 @@
 namespace minty::cli::output {
     using namespace std::literals;
 
-    enum class format {
-        id,
-        json
-    };
+    enum class format { id, json };
 
-    constexpr auto format_string = std::array {
-        "id"sv,
-        "json"sv
-    };
+    constexpr auto format_string = std::array {"id"sv, "json"sv};
 
     template <typename T>
     auto human(const T& t) -> void {
@@ -24,13 +18,8 @@ namespace minty::cli::output {
     }
 
     template <typename T>
-    auto id(
-        std::ostream& out,
-        const minty::search_result<T>& result
-    ) -> void {
-        for (const auto& hit : result.hits) {
-            out << hit.id << "\n";
-        }
+    auto id(std::ostream& out, const minty::search_result<T>& result) -> void {
+        for (const auto& hit : result.hits) { out << hit.id << "\n"; }
     }
 
     template <typename T>
@@ -40,11 +29,7 @@ namespace minty::cli::output {
     }
 
     template <typename T>
-    auto entity(
-        const T& t,
-        bool print_json,
-        bool print_human
-    ) -> void {
+    auto entity(const T& t, bool print_json, bool print_human) -> void {
         if (print_json) json(std::cout, t);
         if (print_human) human(t);
     }
@@ -61,12 +46,8 @@ namespace minty::cli::output {
         auto& out = std::cout;
 
         switch (*f) {
-            case format::id:
-                id(out, result);
-                break;
-            case format::json:
-                json(out, result);
-                break;
+            case format::id: id(out, result); break;
+            case format::json: json(out, result); break;
         }
     }
 }

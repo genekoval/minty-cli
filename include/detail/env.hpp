@@ -1,7 +1,7 @@
 #pragma once
 
-#include <optional>
 #include <filesystem>
+#include <optional>
 
 namespace minty::env {
     auto config() -> std::filesystem::path;

@@ -21,11 +21,8 @@ namespace {
             auto tag = minty::cli::get_tag(repo, id);
 
             const auto end = tag.aliases.end();
-            const auto result = std::ranges::find(
-                tag.aliases.begin(),
-                end,
-                alias
-            );
+            const auto result =
+                std::ranges::find(tag.aliases.begin(), end, alias);
 
             if (result != end) {
                 repo.delete_tag_alias(id, alias);
@@ -47,10 +44,7 @@ namespace minty::subcommands::tag {
         return command(
             __FUNCTION__,
             "Add or remove a tag's alias",
-            options(
-                cli::opts::json(),
-                cli::opts::quiet()
-            ),
+            options(cli::opts::json(), cli::opts::quiet()),
             arguments(
                 required<UUID::uuid>("id"),
                 required<std::string_view>("alias")

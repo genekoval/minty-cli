@@ -1,6 +1,6 @@
 #include "heading.h"
-#include "indent.h"
 #include "../style.h"
+#include "indent.h"
 
 namespace minty::cli::output {
     auto count(

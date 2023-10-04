@@ -10,12 +10,8 @@ using namespace commline;
 
 namespace {
     namespace internal {
-        auto tag(
-            const app& app,
-            bool json,
-            bool quiet,
-            const UUID::uuid& id
-        ) -> void {
+        auto tag(const app& app, bool json, bool quiet, const UUID::uuid& id)
+            -> void {
             const auto tag = minty::cli::get_tag(id);
             minty::cli::output::entity(tag, json, !quiet);
         }
@@ -27,13 +23,8 @@ namespace minty::commands {
         auto cmd = command(
             __FUNCTION__,
             "View a tag",
-            options(
-                cli::opts::json(),
-                cli::opts::quiet()
-            ),
-            arguments(
-                required<UUID::uuid>("id")
-            ),
+            options(cli::opts::json(), cli::opts::quiet()),
+            arguments(required<UUID::uuid>("id")),
             internal::tag
         );
 

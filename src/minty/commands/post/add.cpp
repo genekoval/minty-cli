@@ -20,17 +20,13 @@ namespace {
 
             const auto id = repo.create_post_draft();
 
-            if (!title.empty()) {
-                repo.set_post_title(id, title);
-            }
+            if (!title.empty()) { repo.set_post_title(id, title); }
 
             if (!description.empty()) {
                 repo.set_post_description(id, description);
             }
 
-            for (const auto& tag : tags) {
-                repo.add_post_tag(id, tag);
-            }
+            for (const auto& tag : tags) { repo.add_post_tag(id, tag); }
 
             if (!objects.empty()) {
                 const auto previews = repo.add_objects(objects);
@@ -63,9 +59,7 @@ namespace minty::subcommands::post {
                 cli::opts::description(),
                 cli::opts::tags()
             ),
-            arguments(
-                variadic<std::string_view>("objects")
-            ),
+            arguments(variadic<std::string_view>("objects")),
             internal::add
         );
     }

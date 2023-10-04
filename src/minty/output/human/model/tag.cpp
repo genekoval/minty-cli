@@ -4,11 +4,8 @@
 namespace style = minty::cli::output::style;
 
 namespace minty::cli::output {
-    auto human_readable<tag>::print(
-        std::FILE* f,
-        int indent,
-        const tag& tag
-    ) -> void {
+    auto human_readable<tag>::print(std::FILE* f, int indent, const tag& tag)
+        -> void {
         fmt::print(f, fmt::emphasis::bold, "{}\n\n", tag.name);
 
         if (!tag.aliases.empty()) {

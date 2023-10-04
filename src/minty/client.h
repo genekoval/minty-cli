@@ -10,10 +10,7 @@ namespace minty::cli {
     ) -> void;
 
     template <typename T>
-    auto print(
-        T&& t,
-        std::optional<std::string_view> path = {}
-    ) -> void {
+    auto print(T&& t, std::optional<std::string_view> path = {}) -> void {
         auto out = YAML::Emitter();
         out << t;
         print_yaml(out, path);

@@ -36,12 +36,7 @@ namespace minty::subcommands::post {
         return command(
             __FUNCTION__,
             "Set a post's description",
-            options(
-                flag(
-                    {"c", "clear"},
-                    "Erase the description"
-                )
-            ),
+            options(flag({"c", "clear"}, "Erase the description")),
             arguments(
                 required<UUID::uuid>("id"),
                 optional<std::string_view>("description")

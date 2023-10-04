@@ -7,9 +7,9 @@
 #include <ext/math.h>
 #include <fmt/color.h>
 
-#define MINTY_HUMAN_READABLE(Type) \
-    template <> \
-    struct human_readable<Type> { \
+#define MINTY_HUMAN_READABLE(Type)                                             \
+    template <>                                                                \
+    struct human_readable<Type> {                                              \
         static auto print(std::FILE* f, int indent, const Type& type) -> void; \
     };
 

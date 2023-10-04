@@ -1,9 +1,9 @@
 #include "commands.h"
 
-#include "../commands.h"
 #include "../../options/opts.h"
 #include "../../output/output.h"
 #include "../../parser/parser.h"
+#include "../commands.h"
 
 #include <detail/repo.hpp>
 
@@ -11,12 +11,8 @@ using namespace commline;
 
 namespace {
     namespace internal {
-        auto post(
-            const app& app,
-            bool json,
-            bool quiet,
-            const UUID::uuid& id
-        ) -> void {
+        auto post(const app& app, bool json, bool quiet, const UUID::uuid& id)
+            -> void {
             const auto post = minty::cli::get_post(id);
             minty::cli::output::entity(post, json, !quiet);
         }
@@ -28,13 +24,8 @@ namespace minty::commands {
         auto cmd = command(
             __FUNCTION__,
             "View or edit a post",
-            options(
-                cli::opts::json(),
-                cli::opts::quiet()
-            ),
-            arguments(
-                required<UUID::uuid>("id")
-            ),
+            options(cli::opts::json(), cli::opts::quiet()),
+            arguments(required<UUID::uuid>("id")),
             internal::post
         );
 

@@ -9,9 +9,7 @@ namespace minty::cli::output {
     ) -> void {
         fmt::print(f, fmt::emphasis::bold, "{}\n", tag.name);
 
-        auto meta = metadata(
-            make_row("ID", tag.id)
-        );
+        auto meta = metadata(make_row("ID", tag.id));
 
         meta.indent = indent;
         meta.print(f);

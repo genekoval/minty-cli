@@ -16,9 +16,7 @@ namespace {
         std::string_view description,
         auto (client::* fn)(const ID&) -> std::optional<Entity>
     ) -> Entity {
-        if (auto entity = (repo.*fn)(id)) {
-            return std::move(*entity);
-        }
+        if (auto entity = (repo.*fn)(id)) { return std::move(*entity); }
 
         throw std::system_error(
             std::make_error_code(std::errc::no_such_file_or_directory),
@@ -64,9 +62,7 @@ namespace minty::cli {
         return get_entity(repo, id, "tag", &client::get_tag);
     }
 
-    auto repo() -> client {
-        return repo(settings::load());
-    }
+    auto repo() -> client { return repo(settings::load()); }
 
     auto repo(const settings& config) -> client {
         const auto& server = config.server;

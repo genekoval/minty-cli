@@ -8,10 +8,7 @@ using namespace commline;
 
 namespace {
     namespace internal {
-        auto publish(
-            const app& app,
-            const UUID::uuid& draft
-        ) -> void {
+        auto publish(const app& app, const UUID::uuid& draft) -> void {
             minty::cli::repo().create_post(draft);
         }
     }
@@ -23,9 +20,7 @@ namespace minty::subcommands::post {
             __FUNCTION__,
             "Make a post draft visible",
             options(),
-            arguments(
-                required<UUID::uuid>("draft")
-            ),
+            arguments(required<UUID::uuid>("draft")),
             internal::publish
         );
     }

@@ -33,8 +33,7 @@ namespace {
                 .text = text,
                 .tags = tags,
                 .visibility = drafts ? visibility::draft : visibility::pub,
-                .sort = sort
-            };
+                .sort = sort};
 
             const auto result = minty::cli::repo().get_posts(query);
 
@@ -62,9 +61,7 @@ namespace minty::subcommands::post {
                 cli::opts::output(),
                 cli::opts::quiet()
             ),
-            arguments(
-                optional<std::string>("text")
-            ),
+            arguments(optional<std::string>("text")),
             internal::find
         );
     }

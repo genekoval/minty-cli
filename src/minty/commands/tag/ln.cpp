@@ -46,10 +46,7 @@ namespace minty::subcommands::tag {
         return command(
             __FUNCTION__,
             "Add or remove a tag's link",
-            options(
-                cli::opts::json(),
-                cli::opts::quiet()
-            ),
+            options(cli::opts::json(), cli::opts::quiet()),
             arguments(
                 required<UUID::uuid>("id"),
                 required<std::string_view>("url")
