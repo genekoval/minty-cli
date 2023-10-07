@@ -54,6 +54,7 @@ namespace {
 
         auto text(std::string_view value) -> void {
             if (value.empty()) {
+                indent_with_separator();
                 fmt::print(
                     f,
                     style::destructive,
