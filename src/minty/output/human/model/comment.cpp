@@ -8,6 +8,7 @@
 
 #include <ext/string.h>
 
+namespace icons = minty::cli::output::icons;
 namespace style = minty::cli::output::style;
 
 using minty::time_point;
@@ -52,6 +53,17 @@ namespace {
         }
 
         auto text(std::string_view value) -> void {
+            if (value.empty()) {
+                fmt::print(
+                    f,
+                    style::destructive,
+                    "{} {}\n",
+                    icons::trash,
+                    "Deleted"
+                );
+                return;
+            }
+
             const auto width = minty::env::width();
 
             auto range = ext::string_range(value, "\n");

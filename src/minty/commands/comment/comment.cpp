@@ -33,6 +33,7 @@ namespace minty::commands {
 
         cmd->subcommand(subcommands::comment::add());
         cmd->subcommand(subcommands::comment::edit());
+        cmd->subcommand(subcommands::comment::rm());
 
         return cmd;
     }

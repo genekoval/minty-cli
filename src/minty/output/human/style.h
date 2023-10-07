@@ -2,12 +2,17 @@
 
 #include <fmt/color.h>
 
+namespace minty::cli::output::icons {
+    constexpr auto trash = "\uf48e";
+}
+
 namespace minty::cli::output::style {
     using fmt::color;
     using fmt::emphasis;
     using fmt::fg;
 
     constexpr auto interpunct = " · ";
+    constexpr auto destructive = fg(color::dark_red);
     constexpr auto divider = "----------------------------------------\n";
     constexpr auto index = fg(color::orange_red);
     constexpr auto label = fg(color::plum);
