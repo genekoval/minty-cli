@@ -10,23 +10,27 @@ namespace {
     namespace internal {
         auto desc(
             const app& app,
-            bool clear,
             const UUID::uuid& id,
             std::optional<std::string_view> description
         ) -> void {
             auto repo = minty::cli::repo();
 
-            if (clear) {
-                repo.set_post_description(id, "");
+            if (description) {
+                const auto result = repo.set_post_description(id, *description);
+
+                if (!result.new_value.empty())
+                    fmt::print("{}\n", result.new_value);
+                return;
+            }
+            else {
+                const auto post = repo.get_post(id);
+
+                if (!post.description.empty())
+                    fmt::print("{}\n", post.description);
                 return;
             }
 
-            if (!description) throw cli_error("no description given");
-
-            const auto [modified, result] =
-                repo.set_post_description(id, *description);
-
-            if (result) fmt::print("{}\n", *result);
+            throw std::runtime_error(fmt::format("{}: no such post", id));
         }
     }
 }
@@ -36,7 +40,7 @@ namespace minty::subcommands::post {
         return command(
             __FUNCTION__,
             "Set a post's description",
-            options(flag({"c", "clear"}, "Erase the description")),
+            options(),
             arguments(
                 required<UUID::uuid>("id"),
                 optional<std::string_view>("description")

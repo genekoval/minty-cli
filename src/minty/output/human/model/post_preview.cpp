@@ -8,7 +8,8 @@ namespace minty::cli::output {
         int indent,
         const post_preview& post
     ) -> void {
-        if (post.title) fmt::print(f, fmt::emphasis::bold, "{}\n", *post.title);
+        if (!post.title.empty())
+            fmt::print(f, fmt::emphasis::bold, "{}\n", post.title);
         else fmt::print(f, fmt::emphasis::italic, "Untitled\n");
 
         auto meta = metadata(

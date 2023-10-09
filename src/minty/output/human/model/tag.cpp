@@ -1,8 +1,6 @@
 #include "../model.h"
 #include "../view/metadata.h"
 
-namespace style = minty::cli::output::style;
-
 namespace minty::cli::output {
     auto human_readable<tag>::print(std::FILE* f, int indent, const tag& tag)
         -> void {
@@ -16,9 +14,9 @@ namespace minty::cli::output {
             fmt::print(f, "\n");
         }
 
-        if (tag.description) {
+        if (!tag.description.empty()) {
             fmt::print(f, style::secondary, style::divider);
-            fmt::print(f, "{}\n", tag.description.value());
+            fmt::print(f, "{}\n", tag.description);
             fmt::print(f, style::secondary, style::divider);
         }
 

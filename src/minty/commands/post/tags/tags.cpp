@@ -12,7 +12,7 @@ using namespace commline;
 namespace {
     namespace internal {
         auto tags(const app& app, const UUID::uuid& id) -> void {
-            const auto post = minty::cli::get_post(id);
+            const auto post = minty::cli::repo().get_post(id);
             minty::cli::print(post.tags);
         }
     }

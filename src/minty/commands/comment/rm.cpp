@@ -9,11 +9,7 @@ namespace {
     namespace internal {
         auto rm(const app& app, bool recursive, const UUID::uuid& comment)
             -> void {
-            if (minty::cli::repo().delete_comment(comment, recursive)) {
-                return;
-            }
-
-            TIMBER_WARNING("Comment {} did not exist", comment);
+            minty::cli::repo().delete_comment(comment, recursive);
         }
     }
 }

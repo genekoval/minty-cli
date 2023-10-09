@@ -10,22 +10,26 @@ namespace {
     namespace internal {
         auto desc(
             const app& app,
-            bool clear,
             const UUID::uuid& id,
             std::optional<std::string_view> description
         ) -> void {
             auto repo = minty::cli::repo();
 
-            if (clear) {
-                repo.set_tag_description(id, "");
+            if (description) {
+                const auto result = repo.set_tag_description(id, *description);
+
+                if (!result.empty()) fmt::print("{}\n", result);
+                return;
+            }
+            else {
+                const auto tag = repo.get_tag(id);
+
+                if (!tag.description.empty())
+                    fmt::print("{}\n", tag.description);
                 return;
             }
 
-            if (!description) throw cli_error("no description given");
-
-            const auto result = repo.set_tag_description(id, *description);
-
-            if (result) fmt::print("{}\n", *result);
+            throw std::runtime_error(fmt::format("{}: no such tag", id));
         }
     }
 }
@@ -35,7 +39,7 @@ namespace minty::subcommands::tag {
         return command(
             __FUNCTION__,
             "Set a tag's description",
-            options(flag({"c", "clear"}, "Erase the description")),
+            options(),
             arguments(
                 required<UUID::uuid>("id"),
                 optional<std::string_view>("description")

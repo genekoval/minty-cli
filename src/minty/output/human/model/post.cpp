@@ -6,9 +6,13 @@
 namespace minty::cli::output {
     auto human_readable<post>::print(std::FILE* f, int indent, const post& post)
         -> void {
-        if (post.title) { fmt::print(f, style::title, "{}\n\n", *post.title); }
+        if (!post.title.empty()) {
+            fmt::print(f, style::title, "{}\n\n", post.title);
+        }
 
-        if (post.description) { fmt::print(f, "{}\n\n", *post.description); }
+        if (!post.description.empty()) {
+            fmt::print(f, "{}\n\n", post.description);
+        }
 
         if (!post.objects.empty()) {
             count(f, indent, "Objects", post.objects.size());

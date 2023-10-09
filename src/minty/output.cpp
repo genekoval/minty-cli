@@ -47,8 +47,8 @@ namespace YAML {
             out << Key << "aliases" << Value << tag.aliases;
         }
 
-        if (tag.description.has_value()) {
-            const auto& description = tag.description.value();
+        if (!tag.description.empty()) {
+            const auto& description = tag.description;
             out << Key << "description" << Value;
 
             if (description.find("\n") != std::string::npos) { out << Literal; }
@@ -116,10 +116,10 @@ namespace YAML {
 
         out << Key << "id" << Value << post.id;
 
-        if (post.title) out << Key << "title" << Value << post.title.value();
+        if (!post.title.empty()) out << Key << "title" << Value << post.title;
 
-        if (post.description)
-            out << Key << "description" << Value << post.description.value();
+        if (!post.description.empty())
+            out << Key << "description" << Value << post.description;
 
         out << Key << "created" << Value << post.date_created;
 
@@ -146,7 +146,7 @@ namespace YAML {
         out << BeginMap;
 
         out << Key << "id" << Value << post.id;
-        if (post.title) out << Key << "title" << Value << post.title.value();
+        if (!post.title.empty()) out << Key << "title" << Value << post.title;
         out << Key << "objects" << Value << post.object_count;
         out << Key << "comments" << Value << post.comment_count;
         out << Key << "created" << Value << post.date_created;

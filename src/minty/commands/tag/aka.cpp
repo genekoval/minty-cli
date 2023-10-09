@@ -18,7 +18,7 @@ namespace {
             std::string_view alias
         ) -> void {
             auto repo = minty::cli::repo();
-            auto tag = minty::cli::get_tag(repo, id);
+            auto tag = minty::cli::repo().get_tag(id);
 
             const auto end = tag.aliases.end();
             const auto result =

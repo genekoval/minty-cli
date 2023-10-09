@@ -16,15 +16,20 @@ namespace {
             auto repo = minty::cli::repo();
 
             if (title) {
-                const auto [modified, new_title] =
-                    repo.set_post_title(id, *title);
+                const auto result = repo.set_post_title(id, *title);
 
-                if (new_title) fmt::print("{}\n", *new_title);
+                if (!result.new_value.empty())
+                    fmt::print("{}\n", result.new_value);
+                return;
+            }
+            else {
+                const auto post = repo.get_post(id);
+
+                if (!post.title.empty()) fmt::print("{}\n", post.title);
                 return;
             }
 
-            const auto post = minty::cli::get_post(repo, id);
-            if (post.title) fmt::print("{}\n", *post.title);
+            throw std::runtime_error(fmt::format("{}: no such post", id));
         }
     }
 }

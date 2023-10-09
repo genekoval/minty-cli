@@ -13,7 +13,7 @@ namespace {
     namespace internal {
         auto obj(const app& app, bool json, bool quiet, const UUID::uuid& id)
             -> void {
-            const auto obj = minty::cli::get_object(id);
+            const auto obj = minty::cli::repo().get_object(id);
             minty::cli::output::entity(obj, json, !quiet);
         }
     }

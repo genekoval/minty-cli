@@ -18,7 +18,7 @@ namespace {
             std::string_view url
         ) -> void {
             auto repo = minty::cli::repo();
-            auto tag = minty::cli::get_tag(repo, id);
+            auto tag = minty::cli::repo().get_tag(id);
 
             const auto end = tag.sources.end();
             const auto result = std::ranges::find_if(
